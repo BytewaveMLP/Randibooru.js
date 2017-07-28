@@ -1,0 +1,9 @@
+{
+	"bot": {
+		"owner": "",
+		"prefix": ""
+	},
+	"auth": {
+		"discordToken": ""
+	}
+}

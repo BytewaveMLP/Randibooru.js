@@ -1,0 +1,16 @@
+{
+    "extends": "eslint:recommended",
+    "rules": {
+        "no-tabs": 0,
+        "indent": ["error", "tab"],
+        "no-console": 0,
+        "semi": "error"
+    },
+    "env": {
+		"node": true,
+		"es6": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 2017
+	}
+}
