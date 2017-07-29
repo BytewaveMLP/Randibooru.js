@@ -35,6 +35,12 @@ client
 	})
 	.on('disconnect', () => { console.warn('Disconnected!'); })
 	.on('reconnecting', () => { console.warn('Reconnecting...'); })
+	.on('guildCreate', (guild) => {
+		console.log(`Joined server ${guild.name} (${guild.id})`);
+	})
+	.on('guildDelete', (guild) => {
+		console.log(`Removed from server ${guild.name} (${guild.id})`);		
+	})
 	.on('commandError', (cmd, err) => {
 		if (err instanceof Commando.FriendlyError) return;
 		console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
