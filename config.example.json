@@ -4,6 +4,7 @@
 		"prefix": ""
 	},
 	"auth": {
-		"discordToken": ""
+		"discordToken": "",
+		"derpiAPIKey": ""
 	}
 }

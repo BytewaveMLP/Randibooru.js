@@ -5,7 +5,6 @@
 const Commando = require('discord.js-commando');
 const path = require('path');
 const sqlite = require('sqlite');
-const fs = require('fs');
 const jsonfile = require('jsonfile');
 const config = jsonfile.readFileSync(path.join(path.dirname(__dirname), 'config.json'));
 

@@ -4,6 +4,8 @@
 
 const Commando = require('discord.js-commando');
 const derpi = require('../../util/derpi.js');
+const jsonfile = require('jsonfile');
+const path = require('path');
 
 module.exports = class RandomCommand extends Commando.Command {
 	constructor(client) {
@@ -24,25 +26,43 @@ module.exports = class RandomCommand extends Commando.Command {
 				}
 			]
 		});
+		
+		// I don't like having to do this here, especially because of how ugly this line looks
+		// But hey, it gets the job done
+		this.config = jsonfile.readFileSync(path.join(path.dirname(path.dirname(path.dirname(__dirname))), 'config.json'));
 	}
 
 	async run(msg, args) {
-		// console.log(msg.guild.settings.get(`blockedUsers.${msg.author.id}`));
+		if (msg.channel.type === 'text' && msg.guild.settings.get('blockedUsers.${msg.author.id}')) {
+			return;
+		}
+		
 		let query = args.query;
-		if (query === '') query = '*';
+
+		// Only NSFW channels can have explicit content
+		// (Assumes DMs are fine)
 		const sfw = msg.channel.type !== 'dm' && !msg.channel.nsfw;
+
 		if (sfw) {
 			query = `${query}, -explicit`;
 		}
+
 		msg.channel.startTyping();
-		derpi.query('random', query, function (err, result) {
+
+		derpi.query({
+			apiKey: this.config.auth.derpiAPIKey,
+			query: query,
+			sortFormat: 'random'
+		}, function (err, result) {
+			// Sometimes, the typing indicator gets stuck, so let's reset it here
 			msg.channel.stopTyping();
+
 			if (err) {
 				return msg.reply(`An error occurred: ${err.message}`);
 			} else if (result === undefined) {
 				return msg.reply(`No ${sfw ? 'safe-for-work ' : '' }images found for query: \`${args.query}\``);
 			}
-			console.log(result);
+
 			return msg.reply('https://derpibooru.org/' + result.id);
 		});
 	}
