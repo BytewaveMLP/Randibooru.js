@@ -17,8 +17,9 @@ function query(sf, query, callback) {
 				const results = parsedData.search;
 				if (results.length === 0) {
 					callback();
+				} else {
+					callback(null, results[Math.floor(Math.random() * results.length)]);
 				}
-				callback(null, results[Math.floor(Math.random() * results.length)]);
 			} catch (e) {
 				callback(e);
 			}

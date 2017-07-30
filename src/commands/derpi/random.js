@@ -27,14 +27,22 @@ module.exports = class RandomCommand extends Commando.Command {
 	}
 
 	async run(msg, args) {
+		// console.log(msg.guild.settings.get(`blockedUsers.${msg.author.id}`));
 		let query = args.query;
 		if (query === '') query = '*';
+		const sfw = msg.channel.type !== 'dm' && !msg.channel.nsfw;
+		if (sfw) {
+			query = `${query}, -explicit`;
+		}
+		msg.channel.startTyping();
 		derpi.query('random', query, function (err, result) {
+			msg.channel.stopTyping();
 			if (err) {
 				return msg.reply(`An error occurred: ${err.message}`);
-			} else if (result === null) {
-				return msg.reply(`No images found for query: \`${query}\``);
+			} else if (result === undefined) {
+				return msg.reply(`No ${sfw ? 'safe-for-work ' : '' }images found for query: \`${args.query}\``);
 			}
+			console.log(result);
 			return msg.reply('https://derpibooru.org/' + result.id);
 		});
 	}
