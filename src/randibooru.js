@@ -32,6 +32,10 @@ client
 	.on('debug', console.log)
 	.on('ready', () => {
 		console.log(`Initialized - logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`);
+		client.generateInvite(['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGES'])
+			.then(link => {
+				console.log(`Use this link to invite me to your server: ${link}`);
+			});
 	})
 	.on('disconnect', () => { console.warn('Disconnected!'); })
 	.on('reconnecting', () => { console.warn('Reconnecting...'); })
