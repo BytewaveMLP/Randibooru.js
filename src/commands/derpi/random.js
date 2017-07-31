@@ -4,7 +4,7 @@
 
 const Commando = require('discord.js-commando');
 const derpi = require('../../util/derpi.js');
-const jsonfile = require('jsonfile');
+// const jsonfile = require('jsonfile');
 const path = require('path');
 
 module.exports = class RandomCommand extends Commando.Command {
@@ -26,10 +26,8 @@ module.exports = class RandomCommand extends Commando.Command {
 				}
 			]
 		});
-		
-		// I don't like having to do this here, especially because of how ugly this line looks
-		// But hey, it gets the job done
-		this.config = jsonfile.readFileSync(path.join(path.dirname(path.dirname(path.dirname(__dirname))), 'config.json'));
+
+		this.config = client.config;
 	}
 
 	async run(msg, args) {

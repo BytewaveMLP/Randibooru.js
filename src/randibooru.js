@@ -13,6 +13,8 @@ const client = new Commando.Client({
 	commandPrefix: config.bot.prefix
 });
 
+client.config = config;
+
 client.registry
 	.registerGroups([
 		['derpi', 'Derpibooru commands'],
