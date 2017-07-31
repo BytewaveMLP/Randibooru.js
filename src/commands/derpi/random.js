@@ -39,26 +39,29 @@ module.exports = class RandomCommand extends Commando.Command {
 
 		// Only NSFW channels can have explicit content
 		// (Assumes DMs are fine)
-		const sfw = msg.channel.type !== 'dm' && !msg.channel.nsfw;
-
-		if (sfw) {
-			query = `${query}, -explicit`;
-		}
+		const nsfw = msg.channel.type === 'dm' || msg.channel.nsfw;
 
 		msg.channel.startTyping();
 
 		derpi.query({
-			apiKey: this.config.auth.derpiAPIKey,
+			apiKey: nsfw ? this.config.auth.derpiAPIKey : '',
 			query: query,
 			sortFormat: 'random'
-		}, function (err, result) {
+		}, (err, data) => {
+			let results = data.search;
+			let result;
+
+			if (results.length > 0) {
+				result = results[Math.floor(Math.random() * results.length)];
+			}
+
 			// Sometimes, the typing indicator gets stuck, so let's reset it here
 			msg.channel.stopTyping();
 
 			if (err) {
 				return msg.reply(`An error occurred: ${err.message}`);
 			} else if (result === undefined) {
-				return msg.reply(`No ${sfw ? 'safe-for-work ' : '' }images found for query: \`${args.query}\``);
+				return msg.reply(`No ${!nsfw ? 'safe-for-work ' : '' }images found for query: \`${args.query}\``);
 			}
 
 			return msg.reply('https://derpibooru.org/' + result.id);
