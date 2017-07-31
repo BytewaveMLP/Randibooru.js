@@ -1,9 +1,13 @@
 const https = require('https');
 
+/**
+ * 
+ * 
+ * @param {object} options 
+ * @param {function} callback 
+ */
 function query(options, callback) {
-	const apiKey = options.apiKey;
-	let query = options.query;
-	let sortFormat = options.sortFormat;
+	let {apiKey, query, sortFormat} = options;
 
 	// If the query is empty, we assume that that means search *everything*
 	if (!query) query = '*';
