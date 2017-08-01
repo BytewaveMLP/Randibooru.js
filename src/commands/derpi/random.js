@@ -4,7 +4,7 @@
 
 const Commando = require('discord.js-commando');
 const derpi = require('../../util/derpi.js');
-// const jsonfile = require('jsonfile');
+const embed = require('../../util/embed.js');
 const path = require('path');
 
 module.exports = class RandomCommand extends Commando.Command {
@@ -48,6 +48,13 @@ module.exports = class RandomCommand extends Commando.Command {
 			query: query,
 			sortFormat: 'random'
 		}, (err, data) => {
+			// Sometimes, the typing indicator gets stuck, so let's reset it here
+			msg.channel.stopTyping();
+
+			if (err) {
+				return msg.reply(`An error occurred: ${err.message}`);
+			}
+
 			let results = data.search;
 			let result;
 
@@ -55,16 +62,13 @@ module.exports = class RandomCommand extends Commando.Command {
 				result = results[Math.floor(Math.random() * results.length)];
 			}
 
-			// Sometimes, the typing indicator gets stuck, so let's reset it here
-			msg.channel.stopTyping();
-
-			if (err) {
-				return msg.reply(`An error occurred: ${err.message}`);
-			} else if (result === undefined) {
+			if (result === undefined) {
 				return msg.reply(`No ${!nsfw ? 'safe-for-work ' : '' }images found for query: \`${args.query}\``);
 			}
 
-			return msg.reply('https://derpibooru.org/' + result.id);
+			let reply = embed.derpibooruResultToEmbed(result);
+
+			return msg.reply(args.query !== '' ? `query: \`${args.query}\`` : '', reply);
 		});
 	}
 };

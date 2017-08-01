@@ -11,7 +11,7 @@ const https = require('https');
  * @param {number} [page=1] - The page of results to fetch
  * @param {function} callback - The callback to run with the result set or errors
  */
-function query(options, callback) {
+exports.query = (options, callback) => {
 	let {apiKey, query, sortFormat, order, page} = options;
 
 	// If the query is empty, we assume that that means search *everything*
@@ -50,8 +50,4 @@ function query(options, callback) {
 	}).on('error', (e) => {
 		callback(e);
 	});
-}
-
-module.exports = {
-	query: query
 };
