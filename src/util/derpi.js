@@ -5,10 +5,10 @@ const https = require('https');
  * 
  * @param {object} options - The set of options to use
  * @param {string} [options.apiKey] - Your Derpibooru API key
- * @param {string} [query="*"] - The query to send to Derpibooru
- * @param {string} [sortFormat="created_at"] - The sort format to order the results by
- * @param {string} [order="desc"] - The sort order (asc - ascending/desc - descending) for the result set
- * @param {number} [page=1] - The page of results to fetch
+ * @param {string} [options.query="*"] - The query to send to Derpibooru
+ * @param {string} [options.sortFormat="created_at"] - The sort format to order the results by
+ * @param {string} [options.order="desc"] - The sort order (asc - ascending/desc - descending) for the result set
+ * @param {number} [options.page=1] - The page of results to fetch
  * @param {function} callback - The callback to run with the result set or errors
  */
 exports.query = (options, callback) => {

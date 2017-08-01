@@ -1,3 +1,9 @@
+/**
+ * Converts a Derpibooru image to a Discord.js embed
+ * 
+ * @param {object} result - The image to convert
+ * @return {object} - The resulting embed
+ */
 exports.derpibooruResultToEmbed = (result) => {
 	let data = {
 		embed: {
