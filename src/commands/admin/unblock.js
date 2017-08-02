@@ -13,7 +13,7 @@ module.exports = class RandomCommand extends Commando.Command {
 			group: 'admin',
 			memberName: 'unblock',
 			description: 'Unblock a user from using Randibooru in the current server.',
-			examples: ['unblock somedude'],
+			examples: ['unblock @somedude#1234'],
 			args: [
 				{
 					key: 'user',
@@ -29,7 +29,7 @@ module.exports = class RandomCommand extends Commando.Command {
 		if (!msg.member.hasPermission('KICK_MEMBERS')) {
 			return msg.reply('Only users with the **Kick Members** permission may unblock users');
 		} else if (args.user.id === msg.author.id) {
-			return msg.reply('You can\'t block yourself!');
+			return msg.reply('You can\'t unblock yourself!');
 		}
 		msg.guild.settings.set(`blockedUsers.${args.user.id}`, false).then(() => {
 			return msg.reply(`Unblocked \`${args.user.tag}\``);
