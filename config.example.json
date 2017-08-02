@@ -1,7 +1,8 @@
 {
 	"bot": {
 		"owner": "",
-		"prefix": ""
+		"commandPrefix": "",
+		"invite": "https://discord.gg/AukVbRR"
 	},
 	"auth": {
 		"discordToken": "",

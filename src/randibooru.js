@@ -8,10 +8,7 @@ const sqlite = require('sqlite');
 const jsonfile = require('jsonfile');
 const config = jsonfile.readFileSync(path.join(path.dirname(__dirname), 'config.json'));
 
-const client = new Commando.Client({
-	owner: config.bot.owner,
-	commandPrefix: config.bot.prefix
-});
+const client = new Commando.Client(config.bot);
 
 client.config = config;
 
