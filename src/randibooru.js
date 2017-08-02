@@ -42,6 +42,7 @@ client
 	.on('reconnecting', () => { console.warn('Reconnecting...'); })
 	.on('guildCreate', (guild) => {
 		console.log(`Joined server ${guild.name} (${guild.id})`);
+		guild.defaultChannel.send(`**Hey there!** I'm **Randibooru.js**, the next generation of Randibooru! I fetch random images from Derpibooru, the MLP image booru, for your enjoyment.\n\nIf you'd like to know what I can do, take a look at the \`${guild.commandPrefix || client.commandPrefix || client.options.commandPrefix}help\` command!`).catch(console.error);
 	})
 	.on('guildDelete', (guild) => {
 		console.log(`Removed from server ${guild.name} (${guild.id})`);		
