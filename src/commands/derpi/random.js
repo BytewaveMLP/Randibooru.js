@@ -27,6 +27,8 @@ module.exports = class RandomCommand extends Commando.Command {
 	}
 
 	async run(msg, args) {
-		handler.handleDerpiCommand('random', this.client, msg, args);
+		handler.handleDerpiCommand({
+			sortFormat: 'random'
+		}, this.client, msg, args);
 	}
 };
