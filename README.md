@@ -37,7 +37,10 @@ $ node . # Run the bot
 
 ### Commands list
 
-- `rb!random [query]` - Get a random image from Derpibooru, optionally matching the given query.
+- `!rb random [query]` - Get a random image from Derpibooru, optionally matching the given query.
+- `!rb top [query]` - Get the top image from Derpibooru, optionally matching the given query.
+- `!rb first [query]` - Get the first image uploaded to Derpibooru. You get the point about `[query]` now.
+- `!rb latest [query]` - Get the latest image uploaded to Derpibooru.
 
 (This also includes the list of built-in Discord.js commands, the likes of which I'm too lazy to list.)
 
