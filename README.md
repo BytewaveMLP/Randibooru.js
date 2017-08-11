@@ -41,6 +41,8 @@ $ node . # Run the bot
 - `!rb top [query]` - Get the top image from Derpibooru, optionally matching the given query.
 - `!rb first [query]` - Get the first image uploaded to Derpibooru. You get the point about `[query]` now.
 - `!rb latest [query]` - Get the latest image uploaded to Derpibooru.
+- `!rb block <user>` - Block the given user from using Randibooru commands in the given server. **REQUIRES MANAGE MESSAGES**
+- `!rb unblock <user>` - Allow the given user to use Randibooru commands again in the given server. **REQUIRES MANAGE MESSAGES**
 
 (This also includes the list of built-in Discord.js commands, the likes of which I'm too lazy to list.)
 
