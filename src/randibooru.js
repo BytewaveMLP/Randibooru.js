@@ -47,7 +47,7 @@ If you'd like to know what I can do, take a look at the \`${guild.commandPrefix 
 https://github.com/BytewaveMLP/Randibooru.js
 
 **Join my Discord server!**
-https://discord.gg/AukVbRR`).catch(console.error);
+${config.bot.invite}`).catch(console.error); 
 	})
 	.on('guildDelete', (guild) => {
 		console.log(`Removed from server ${guild.name} (${guild.id})`);		
