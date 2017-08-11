@@ -26,8 +26,8 @@ module.exports = class RandomCommand extends Commando.Command {
 	}
 
 	async run(msg, args) {
-		if (!msg.member.hasPermission('KICK_MEMBERS')) {
-			return msg.reply('Only users with the **Kick Members** permission may unblock users');
+		if (!msg.member.hasPermission('MANAGE_MESSAGES')) {
+			return msg.reply('Only users with the **Manage Messages** permission may unblock users');
 		} else if (args.user.id === msg.author.id) {
 			return msg.reply('You can\'t unblock yourself!');
 		}
