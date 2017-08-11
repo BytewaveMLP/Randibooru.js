@@ -45,8 +45,10 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 			return msg.reply(`No ${!nsfw ? 'safe-for-work ' : '' }images found for query: \`${args.query}\``);
 		}
 
-		let reply = embed.derpibooruResultToEmbed(result);
+		let replyEmbed = embed.derpibooruResultToEmbed(result);
 
-		return msg.reply(args.query !== '' ? `query: \`${args.query}\`` : '', reply);
+		return msg.reply(args.query !== '' ? `query: \`${args.query}\`` : '', {
+			embed: replyEmbed
+		});
 	});
 };
