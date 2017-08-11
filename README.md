@@ -30,7 +30,7 @@ $ npm install # Install all dependencies
 $ cp config.example.json config.json # Create a local config
 $ $EDITOR config.json # Add your config options here
 ### NOTE: We assume your derpiAPIKey points to an account with the Everything filter set. If not, the bot will still work, but replies may be incorrect in terms of the amount of images matching a given query.
-$ node ./src/randibooru.js # Run the bot
+$ node . # Run the bot
 ```
 
 ## Usage
