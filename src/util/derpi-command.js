@@ -73,7 +73,7 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 			return msg.reply(`No ${!nsfw ? 'safe-for-work ' : ''}images found for query: \`${args.query}\``);
 		}
 
-		console.info(`${requestId} Result found - ${result.url}; sending embed...`);
+		console.info(`${requestId} Result found - https://derpibooru.org/${result.id}; sending embed...`);
 
 		console.debug(`${requestId} Creating embed from result...`);
 		let replyEmbed = embed.derpibooruResultToEmbed(result);
