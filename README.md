@@ -33,6 +33,8 @@ $ $EDITOR config.json # Add your config options here
 $ node . # Run the bot
 ```
 
+If you don't want to set up Randibooru yourself, feel free to [invite the public version of Randibooru](https://discordapp.com/oauth2/authorize?client_id=206203876095950850&scope=bot&permissions=19456) to a server of your choice. Please do not overload the bot, however, as requests are **logged**. We **will** find you if you mess anything up!
+
 ## Usage
 
 ### Commands list
