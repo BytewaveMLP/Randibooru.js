@@ -12,7 +12,7 @@ module.exports = class TopCommand extends Commando.Command {
 			aliases: ['t'],
 			group: 'derpi',
 			memberName: 'top',
-			description: 'Gets the top-scoring image from Derpibooru matching the given query',
+			description: 'Gets the top-scoring image from Derpibooru matching the given query - uses Derpibooru\'s syntax (https://derpibooru.org/search/syntax)',
 			examples: ['top', 'top safe', 'top safe, -anthro, (this OR that)'],
 			args: [
 				{

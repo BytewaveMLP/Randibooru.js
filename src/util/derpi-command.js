@@ -1,5 +1,6 @@
 const derpi = require('./derpi.js');
 const embed = require('./embed.js');
+const Discord = require('discord.js');
 
 /**
  * Handles an incoming Derpibooru-related command.
@@ -12,25 +13,51 @@ const embed = require('./embed.js');
  * @param {object} args - The arguments to the command (second param in async run)
  */
 exports.handleDerpiCommand = (options, client, msg, args) => {
+	let requestId = `[${new Date().toISOString()}] [@${msg.author.username}#${msg.author.discriminator} in `;
+
+	if (msg.channel.type === 'dm') {
+		requestId += 'a DM';
+	} else if (msg.channel === 'group') {
+		requestId += `a group DM (${msg.channel.name}`;
+	} else {
+		requestId += `${msg.channel.guild.name} #${msg.channel.name}`;
+	}
+
+	if (args.query) {
+		requestId += ` with query ${args.query}`;
+	}
+
+	requestId += ']';
+
+	console.info(`${requestId} Received.`);
+	console.debug(`${requestId} Options: ${JSON.stringify(options)}`);
+
 	if (msg.channel.type === 'text' && msg.guild.settings.get('blockedUsers.${msg.author.id}')) {
+		console.info(`${requestId} Blocked by adminstrator.`);
 		return;
 	}
 
+	console.debug(`${requestId} Sending typing notification...`);
 	msg.channel.startTyping();
 	
 	options.query = args.query;
 
 	// Only NSFW channels can have explicit content
 	// (Assumes DMs are fine)
-	const nsfw = msg.channel.type === 'dm' || msg.channel.nsfw;
+	const nsfw = msg.channel.type === 'dm' || msg.channel.type === 'group' || msg.channel.nsfw;
 
+	console.debug(`${requestId} NSFW channel: ${nsfw}`);
+
+	// Use the default filter if the channel is not tagged NSFW
 	options.apiKey = nsfw ? client.config.auth.derpiAPIKey : '';
 
 	derpi.query(options, (err, data) => {
 		// Sometimes, the typing indicator gets stuck, so let's reset it here
+		console.debug(`${requestId} Stopping typing notification...`);
 		msg.channel.stopTyping();
 
 		if (err) {
+			console.error(`${requestId} ERROR: ${err.message}`);
 			return msg.reply(`An error occurred: ${err.message}`);
 		}
 
@@ -42,9 +69,13 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 		}
 
 		if (result === undefined) {
-			return msg.reply(`No ${!nsfw ? 'safe-for-work ' : '' }images found for query: \`${args.query}\``);
+			console.info(`${requestId} No results found.`);
+			return msg.reply(`No ${!nsfw ? 'safe-for-work ' : ''}images found for query: \`${args.query}\``);
 		}
 
+		console.info(`${requestId} Result found - ${result.url}; sending embed...`);
+
+		console.debug(`${requestId} Creating embed from result...`);
 		let replyEmbed = embed.derpibooruResultToEmbed(result);
 
 		return msg.reply(args.query !== '' ? `query: \`${args.query}\`` : '', {
