@@ -48,14 +48,14 @@ client
 			}).array();
 			console.log('Posting join message in highest channel with SEND_MESSAGES permission...');
 			channels[0].send(`**Hey there!** I'm **Randibooru.js**, the next generation of Randibooru! I fetch random images from Derpibooru, the MLP image booru, for your enjoyment.
+
+If you'd like to know what I can do, take a look at the \`${guild.commandPrefix || client.commandPrefix || client.options.commandPrefix}help\` command!
 			
-			If you'd like to know what I can do, take a look at the \`${guild.commandPrefix || client.commandPrefix || client.options.commandPrefix}help\` command!
-			
-			**Want to see my source code?** Here ya go!
-			https://github.com/BytewaveMLP/Randibooru.js
-			
-			**Join my Discord server!**
-			${config.bot.invite}`).catch(console.error); 
+**Want to see my source code?** Here ya go!
+https://github.com/BytewaveMLP/Randibooru.js
+
+**Join my Discord server!**
+${config.bot.invite}`).catch(console.error); 
 		}
 	})
 	.on('guildDelete', (guild) => {
