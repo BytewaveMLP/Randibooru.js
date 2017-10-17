@@ -39,18 +39,27 @@ client
 	.on('reconnecting', () => { console.warn('Reconnecting...'); })
 	.on('guildCreate', (guild) => {
 		console.log(`Joined server ${guild.name} (${guild.id})`);
-		guild.defaultChannel.send(`**Hey there!** I'm **Randibooru.js**, the next generation of Randibooru! I fetch random images from Derpibooru, the MLP image booru, for your enjoyment.
-
-If you'd like to know what I can do, take a look at the \`${guild.commandPrefix || client.commandPrefix || client.options.commandPrefix}help\` command!
-
-**Want to see my source code?** Here ya go!
-https://github.com/BytewaveMLP/Randibooru.js
-
-**Join my Discord server!**
-${config.bot.invite}`).catch(console.error); 
+		let channels = guild.channels.filter((channel) => {
+			return channel.type === 'text' && channel.permissionsFor(guild.me).has('SEND_MESSAGES');
+		});
+		if (channels.array().length > 0) {
+			channels = channels.sort((a, b) => {
+				return a.calculatedPosition - b.calculatedPosition;
+			}).array();
+			console.log('Posting join message in highest channel with SEND_MESSAGES permission...');
+			channels[0].send(`**Hey there!** I'm **Randibooru.js**, the next generation of Randibooru! I fetch random images from Derpibooru, the MLP image booru, for your enjoyment.
+			
+			If you'd like to know what I can do, take a look at the \`${guild.commandPrefix || client.commandPrefix || client.options.commandPrefix}help\` command!
+			
+			**Want to see my source code?** Here ya go!
+			https://github.com/BytewaveMLP/Randibooru.js
+			
+			**Join my Discord server!**
+			${config.bot.invite}`).catch(console.error); 
+		}
 	})
 	.on('guildDelete', (guild) => {
-		console.log(`Removed from server ${guild.name} (${guild.id})`);		
+		console.log(`Removed from server ${guild.name} (${guild.id})`);
 	})
 	.on('commandError', (cmd, err) => {
 		if (err instanceof Commando.FriendlyError) return;
