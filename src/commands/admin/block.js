@@ -21,14 +21,15 @@ module.exports = class RandomCommand extends Commando.Command {
 					prompt: 'Which user should we block?',
 					type: 'user'
 				}
+			],
+			userPermissions: [
+				'MANAGE_MESSAGES',
 			]
 		});
 	}
 
 	async run(msg, args) {
-		if (!msg.member.hasPermission('MANAGE_MESSAGES')) {
-			return msg.reply('Only users with the **Manage Messages** permission may block users');
-		} else if (args.user.id === msg.author.id) {
+		if (args.user.id === msg.author.id) {
 			return msg.reply('You can\'t block yourself!');
 		}
 		msg.guild.settings.set(`blockedUsers.${args.user.id}`, true).then(() => {
