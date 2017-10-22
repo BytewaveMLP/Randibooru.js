@@ -32,7 +32,7 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 	console.info(`${requestId} Received.`);
 	console.debug(`${requestId} Options: ${JSON.stringify(options)}`);
 
-	if (msg.channel.type === 'text' && msg.guild.settings.get('blockedUsers.${msg.author.id}')) {
+	if (msg.channel.type === 'text' && msg.guild.settings.get(`blockedUsers.${msg.author.id}`)) {
 		console.info(`${requestId} Blocked by adminstrator.`);
 		return;
 	}
