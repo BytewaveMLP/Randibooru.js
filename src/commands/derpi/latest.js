@@ -5,7 +5,7 @@
 const Commando = require('discord.js-commando');
 const handler = require('../../util/derpi-command.js');
 
-module.exports = class FirstCommand extends Commando.Command {
+module.exports = class LatestCommand extends Commando.Command {
 	constructor(client) {
 		super(client, {
 			name: 'latest',

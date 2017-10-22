@@ -4,7 +4,7 @@
 
 const Commando = require('discord.js-commando');
 
-module.exports = class RandomCommand extends Commando.Command {
+module.exports = class BlockCommand extends Commando.Command {
 	constructor(client) {
 		super(client, {
 			guildOnly: true,
