@@ -14,7 +14,7 @@ client.config = config;
 client.registry
 	.registerGroups([
 		['derpi', 'Derpibooru'],
-		['admin', 'Administrative'],
+		['admin', 'Administrative', true],
 	])
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, 'commands'));

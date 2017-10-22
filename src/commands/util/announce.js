@@ -22,7 +22,8 @@ module.exports = class AnnounceCommand extends Commando.Command {
 					prompt: 'What should be announced?',
 					type: 'string'
 				}
-			]
+			],
+			guarded: true,
 		});
 	}
 
