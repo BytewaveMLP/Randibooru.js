@@ -7,7 +7,6 @@ const Commando = require('discord.js-commando');
 module.exports = class AnnounceCommand extends Commando.Command {
 	constructor(client) {
 		super(client, {
-			guildOnly: true,
 			name: 'announce',
 			aliases: ['an'],
 			group: 'util',
