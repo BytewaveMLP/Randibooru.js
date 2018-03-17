@@ -16,3 +16,5 @@ settings.sqlite3
 build/
 
 config.json
+
+yarn-error.log

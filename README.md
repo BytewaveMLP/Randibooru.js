@@ -60,4 +60,4 @@ If you don't want to set up Randibooru yourself, feel free to [invite the public
 
 ## License
 
-Copyright (c) Eliot Partridge, 2016-17. Licensed under [the MPL v2.0](/LICENSE).
+Copyright (c) Eliot Partridge, 2016-18. Licensed under [the MPL v2.0](/LICENSE).
