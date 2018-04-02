@@ -32,8 +32,8 @@ module.exports = class BlockCommand extends Commando.Command {
 		if (args.user.id === msg.author.id) {
 			return msg.reply('You can\'t block yourself!');
 		}
-		msg.guild.settings.set(`blockedUsers.${args.user.id}`, true).then(() => {
-			return msg.reply(`Blocked \`${args.user.tag}\``);
-		});
+
+		await msg.guild.settings.set(`blockedUsers.${args.user.id}`, true);
+		return msg.reply(`Unblocked \`${args.user.tag}\``);
 	}
 };

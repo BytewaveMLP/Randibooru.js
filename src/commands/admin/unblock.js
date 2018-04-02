@@ -32,8 +32,8 @@ module.exports = class UnblockCommand extends Commando.Command {
 		if (args.user.id === msg.author.id) {
 			return msg.reply('You can\'t unblock yourself!');
 		}
-		msg.guild.settings.set(`blockedUsers.${args.user.id}`, false).then(() => {
-			return msg.reply(`Unblocked \`${args.user.tag}\``);
-		});
+
+		await msg.guild.settings.remove(`blockedUsers.${args.user.id}`);
+		return msg.reply(`Unblocked \`${args.user.tag}\``);
 	}
 };
