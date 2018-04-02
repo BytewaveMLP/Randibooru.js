@@ -1,6 +1,5 @@
 const derpi = require('./derpi.js');
 const embed = require('./embed.js');
-const Discord = require('discord.js');
 
 /**
  * Handles an incoming Derpibooru-related command.
