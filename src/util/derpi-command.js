@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 
 /**
  * Handles an incoming Derpibooru-related command.
- * 
+ *
  * @param {object} options - The options to pass to Derpibooru
  * @param {string} [options.sortFormat] - The sort format to pull a result from
  * @param {string} [options.order] - The order to sort the results in before retrieving one
@@ -39,7 +39,7 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 
 	console.debug(`${requestId} Sending typing notification...`);
 	msg.channel.startTyping();
-	
+
 	options.query = args.query;
 
 	// Only NSFW channels can have explicit content
@@ -48,8 +48,11 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 
 	console.debug(`${requestId} NSFW channel: ${nsfw}`);
 
-	// Use the default filter if the channel is not tagged NSFW
-	options.apiKey = nsfw ? client.config.auth.derpiAPIKey : '';
+	if (nsfw) {
+		options.apiKey = msg.guild.settings.get('apikey.nsfw', client.config.auth.derpiAPIKey);
+	} else {
+		options.apiKey = msg.guild.settings.get('apikey.sfw', '');
+	}
 
 	derpi.query(options, (err, data) => {
 		// Sometimes, the typing indicator gets stuck, so let's reset it here
