@@ -12,7 +12,7 @@ module.exports = class APIKeyCommand extends Commando.Command {
 			aliases: ['key'],
 			group: 'admin',
 			memberName: 'apikey',
-			description: 'Set Randibooru\'s SFW/NSFW API keys for Derpibooru. Sets the NSFW key by default unless specified otherwise.',
+			description: 'Set Randibooru\'s SFW/NSFW API keys for Derpibooru. Sets the NSFW key by default unless specified otherwise.\n**NOTE:** Please consider creating an account specifically for your bot instead of using your own personal account\'s API key. The Derpibooru API isn\'t extremely powerful to my knowledge, but I claim no liability if your key is compromised and something happens to your account!',
 			examples: ['apikey YOUR_API_KEY_HERE', 'apikey YOUR_API_KEY_HERE SFW', 'apikey NONE SFW'],
 			args: [
 				{
