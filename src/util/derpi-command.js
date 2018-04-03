@@ -44,7 +44,7 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 	// Only NSFW channels can have explicit content
 	// (Assumes DMs are fine)
 	if (msg.channel.type === 'dm' || msg.channel.type === 'group') {
-		options.filter = client.condfig.derpibooru.filters.nsfw;
+		options.filter = client.config.derpibooru.filters.nsfw;
 		console.debug(requestId + ' Request is in a DM; NSFW filter enabled.');
 	} else if (msg.channel.nsfw) {
 		options.filter = msg.guild.settings.get('filter.nsfw', client.config.derpibooru.filters.nsfw);
