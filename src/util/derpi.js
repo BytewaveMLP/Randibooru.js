@@ -25,8 +25,6 @@ exports.query = (options, callback) => {
 
 	options = Object.assign({}, defaultQueryOptions, options);
 
-	console.debug(options);
-
 	let url = 'https://derpibooru.org/search.json';
 
 	url += `?page=${options.page}`;
