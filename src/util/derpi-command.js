@@ -43,15 +43,18 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 
 	// Only NSFW channels can have explicit content
 	// (Assumes DMs are fine)
-	const nsfw = msg.channel.type === 'dm' || msg.channel.type === 'group' || msg.channel.nsfw;
-
-	console.debug(`${requestId} NSFW channel: ${nsfw}`);
-
-	if (nsfw) {
+	if (msg.channel.type === 'dm' || msg.channel.type === 'group') {
+		options.filter = client.condfig.derpibooru.filters.nsfw;
+		console.debug(requestId + ' Request is in a DM; NSFW filter enabled.');
+	} else if (msg.channel.nsfw) {
 		options.filter = msg.guild.settings.get('filter.nsfw', client.config.derpibooru.filters.nsfw);
+		console.debug(requestId + ' Request was sent in a channel marked NSFW; NSFW filter enabled.');
 	} else {
 		options.filter = msg.guild.settings.get('filter.sfw', client.config.derpibooru.filters.sfw);
+		console.debug(requestId + ' Request was not sent in an NSFW channel; using SFW filter.');
 	}
+
+	console.debug(requestId + `Using filter ID ${options.filter}`);
 
 	derpi.query(options, (err, data) => {
 		// Sometimes, the typing indicator gets stuck, so let's reset it here
