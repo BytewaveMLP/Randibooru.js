@@ -12,7 +12,7 @@ module.exports = class FilterCommand extends Commando.Command {
 			aliases: ['filt', 'fid'],
 			group: 'admin',
 			memberName: 'filter',
-			description: 'Set Randibooru\'s Derpibooru filters.\nIf you aren\'t sure how to retrieve this, it can be found by right-clicking the "Use this filter" button for the filter you want on https://derpibooru.org/filters and using Inspect Element. The ID is the number after `/filters/current?id=` on the line above.\nSpecify NSFW or SFW after the filter ID to choose which filter to set.',
+			description: 'Set Randibooru\'s Derpibooru filters.\nIf you aren\'t sure how to retrieve this, it can be found by right-clicking the "Use this filter" button for the filter you want on <https://derpibooru.org/filters> and using Inspect Element. The ID is the number after `/filters/current?id=` on the line above.\nSpecify NSFW or SFW after the filter ID to choose which filter to set.',
 			examples: ['filter YOUR_FILTER_ID', 'filter NONE', 'filter YOUR_FILTER_ID SFW'],
 			args: [
 				{

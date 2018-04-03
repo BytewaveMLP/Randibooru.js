@@ -12,7 +12,7 @@ module.exports = class RandomCommand extends Commando.Command {
 			aliases: ['rand', 'r'],
 			group: 'derpi',
 			memberName: 'random',
-			description: 'Gets a random image from Derpibooru matching the given query - uses Derpibooru\'s syntax (https://derpibooru.org/search/syntax)',
+			description: 'Gets a random image from Derpibooru matching the given query - uses Derpibooru\'s syntax (<https://derpibooru.org/search/syntax>)',
 			examples: ['random', 'random safe', 'random safe, -anthro, (this OR that)'],
 			args: [
 				{

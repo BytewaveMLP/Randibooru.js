@@ -12,7 +12,7 @@ module.exports = class LatestCommand extends Commando.Command {
 			aliases: ['l'],
 			group: 'derpi',
 			memberName: 'latest',
-			description: 'Gets the latest image uploaded to Derpibooru matching the given query - uses Derpibooru\'s syntax (https://derpibooru.org/search/syntax)',
+			description: 'Gets the latest image uploaded to Derpibooru matching the given query - uses Derpibooru\'s syntax (<https://derpibooru.org/search/syntax>)',
 			examples: ['latest', 'latest safe', 'latest safe, -anthro, (this OR that)'],
 			args: [
 				{
