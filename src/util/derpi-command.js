@@ -48,9 +48,9 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 	console.debug(`${requestId} NSFW channel: ${nsfw}`);
 
 	if (nsfw) {
-		options.apiKey = msg.guild.settings.get('apikey.nsfw', client.config.auth.derpiAPIKey);
+		options.filter = msg.guild.settings.get('filter.nsfw', client.config.derpibooru.filters.nsfw);
 	} else {
-		options.apiKey = msg.guild.settings.get('apikey.sfw', '');
+		options.filter = msg.guild.settings.get('filter.sfw', client.config.derpibooru.filters.sfw);
 	}
 
 	derpi.query(options, (err, data) => {
