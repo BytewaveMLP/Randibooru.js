@@ -21,7 +21,11 @@ const defaultQueryOptions = {
  * @param {function} callback - The callback to run with the result set or errors
  */
 exports.query = (options, callback) => {
+	if (options.query === '') options.query = '*';
+
 	options = Object.assign({}, defaultQueryOptions, options);
+
+	console.debug(options);
 
 	let url = 'https://derpibooru.org/search.json';
 
