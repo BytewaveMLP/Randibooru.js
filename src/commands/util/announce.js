@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const Commando = require('discord.js-commando');
- 
+
 module.exports = class AnnounceCommand extends Commando.Command {
 	constructor(client) {
 		super(client, {
@@ -29,17 +29,17 @@ module.exports = class AnnounceCommand extends Commando.Command {
 	hasPermission(msg) {
 		return this.client.isOwner(msg.author);
 	}
- 
+
 	async run(msg, args) {
 		this.client.guilds.array().forEach((guild) => {
 			let channels = guild.channels.filter((channel) => {
-				return channel.type === 'text' && channel.permissionsFor(guild.me).has('SEND_MESSAGES');
+				return channel.type === 'text' && channel.permissionsFor(guild.me).has(['VIEW_CHANNEL', 'SEND_MESSAGES']);
 			});
 			if (channels.array().length > 0) {
 				channels = channels.sort((a, b) => {
 					return a.calculatedPosition - b.calculatedPosition;
 				}).array();
-				channels[0].send(args.msg);
+				channels[0].send(args.msg).catch(e => console.error(e));
 			}
 		});
 	}
