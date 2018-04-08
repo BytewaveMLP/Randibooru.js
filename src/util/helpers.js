@@ -10,7 +10,6 @@
  */
 exports.getGuildsAndMembers = client => {
 	return client.guilds.reduce((acc, guild) => {
-		console.log(acc);
 		acc.guilds  += 1;
 		acc.members += guild.members.array().length;
 		return acc;
