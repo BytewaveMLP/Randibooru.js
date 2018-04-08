@@ -27,7 +27,11 @@ client.setProvider(
 client
 	.on('error', console.error)
 	.on('warn', console.warn)
-	.on('debug', console.log)
+	.on('debug', msg => {
+		if (process.env.NODE_ENV !== 'production') {
+			console.log(msg);
+		}
+	})
 	.on('ready', () => {
 		console.log(`Initialized - logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`);
 		client.generateInvite(['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGES'])
