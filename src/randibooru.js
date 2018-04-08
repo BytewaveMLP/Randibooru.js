@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const Commando = require('discord.js-commando');
+const Helpers = require('./util/helpers.js');
 const path = require('path');
 const sqlite = require('sqlite');
 const config = require('../config');
@@ -14,7 +15,7 @@ client.config = config;
 client.registry
 	.registerGroups([
 		['derpi', 'Derpibooru'],
-		['admin', 'Administrative', true],
+		['admin', 'Administrative', true]
 	])
 	.registerDefaults()
 	.registerCommandsIn(path.join(__dirname, 'commands'));
@@ -33,7 +34,7 @@ client
 			.then(link => {
 				console.log(`Use this link to invite me to your server: ${link}`);
 			});
-		client.user.setGame(`${client.commandPrefix || client.options.commandPrefix}help for help`);
+		Helpers.setGame(client);
 	})
 	.on('disconnect', () => { console.warn('Disconnected!'); })
 	.on('reconnecting', () => { console.warn('Reconnecting...'); })
@@ -42,6 +43,8 @@ client
 		// to servers the bot has already joined.
 		// This doesn't happen often, but once is once too many.
 		if (Date.now() - guild.joinedTimestamp > 120) return;
+
+		Helpers.setGame(client);
 
 		console.log(`Joined server ${guild.name} (${guild.id})`);
 
@@ -67,6 +70,7 @@ ${config.bot.invite}`).catch(console.error);
 		}
 	})
 	.on('guildDelete', (guild) => {
+		Helpers.setGame(client);
 		console.log(`Removed from server ${guild.name} (${guild.id})`);
 	})
 	.on('commandError', (cmd, err) => {
@@ -79,7 +83,7 @@ ${config.bot.invite}`).catch(console.error);
 	.on('commandPrefixChange', (guild, prefix) => {
 		console.log(`Prefix ${prefix === '' ? 'removed' : `changed to ${prefix || 'the default'}`} ${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.`);
 		if (!guild) {
-			client.user.setGame(`${client.commandPrefix || client.options.commandPrefix}help for help`);
+			Helpers.setGame(client);
 		}
 	})
 	.on('commandStatusChange', (guild, command, enabled) => {
