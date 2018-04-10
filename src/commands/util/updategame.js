@@ -16,6 +16,15 @@ module.exports = class AnnounceCommand extends Commando.Command {
 			details: 'Only the bot owner may use this command.',
 			examples: ['updategame'],
 			guarded: true,
+			args: [
+				{
+					key: 'game',
+					label: 'game',
+					default: '',
+					prompt: '',
+					type: 'string'
+				}
+			]
 		});
 	}
 
@@ -23,8 +32,13 @@ module.exports = class AnnounceCommand extends Commando.Command {
 		return this.client.isOwner(msg.author);
 	}
 
-	async run(msg) {
-		Helpers.setGame(this.client);
-		return msg.reply('Updated successfully.');
+	async run(msg, args) {
+		if (args.game === '') {
+			Helpers.setGame(this.client);
+		} else {
+			await this.client.user.setGame(args.game);
+		}
+
+		return msg.reply(`Changed in-game status to ${args.game !== '' ? args.game : 'the default'}.`);
 	}
 };
