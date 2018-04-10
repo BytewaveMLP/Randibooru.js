@@ -39,6 +39,6 @@ module.exports = class AnnounceCommand extends Commando.Command {
 			await this.client.user.setGame(args.game);
 		}
 
-		return msg.reply(`Changed in-game status to ${args.game !== '' ? args.game : 'the default'}.`);
+		return msg.reply(`Changed in-game status to ${args.game !== '' ? `\`${args.game}\`` : 'the default'}.`);
 	}
 };
