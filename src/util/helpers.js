@@ -28,6 +28,6 @@ exports.getGuildsAndMembers = async client => {
 };
 
 exports.setGame = async client => {
-	let { members, guilds } = this.getGuildsAndMembers(client);
+	let { members, guilds } = await this.getGuildsAndMembers(client);
 	await client.user.setGame(`${client.commandPrefix || client.options.commandPrefix}help | ${members} members across ${guilds} guilds`);
 };
