@@ -19,11 +19,11 @@ module.exports = class InfoCommand extends Commando.Command {
 	}
 
 	async run(msg) {
-		let { guilds, members } = Helpers.getGuildsAndMembers(this.client);
+		let { guilds, members } = await Helpers.getGuildsAndMembers(this.client);
 
 		let link = await this.client.generateInvite(['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGES']);
 
-		msg.reply(`**Hey there!** I'm **Randibooru.js**, the next generation of Randibooru! I fetch random images from Derpibooru, the MLP image booru, for your enjoyment.
+		await msg.reply(`**Hey there!** I'm **Randibooru.js**, the next generation of Randibooru! I fetch random images from Derpibooru, the MLP image booru, for your enjoyment.
 
 I'm currently serving ${members} members across ${guilds} guilds, and hope to grow soon! If you want to help me grow, feel free to invite me to your server!
 <${link}>
