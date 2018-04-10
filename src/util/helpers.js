@@ -8,7 +8,7 @@
  * @param {CommandoClient} client - The Discord.JS-Commando Client object
  * @returns {object} - An object containing two properties, guilds and members, each representing the associated counts.
  */
-exports.getGuildsAndMembers = async client => {
+exports.getGuildsAndMembers = client => {
 	// Algorithm provided by CyberPon3
 	// https://github.com/CyberPon3
 	let members = client.guilds.reduce(
@@ -27,7 +27,7 @@ exports.getGuildsAndMembers = async client => {
 	return { members: members, guilds: guilds };
 };
 
-exports.setGame = async client => {
-	let { members, guilds } = await this.getGuildsAndMembers(client);
-	await client.user.setGame(`${client.commandPrefix || client.options.commandPrefix}help | ${members} members across ${guilds} guilds`);
+exports.setGame = client => {
+	let { members, guilds } = this.getGuildsAndMembers(client);
+	client.user.setGame(`${client.commandPrefix || client.options.commandPrefix}help | ${members} members across ${guilds} guilds`);
 };

@@ -24,7 +24,7 @@ module.exports = class AnnounceCommand extends Commando.Command {
 	}
 
 	async run(msg) {
-		await Helpers.setGame(this.client);
+		Helpers.setGame(this.client);
 		return msg.reply('Updated successfully.');
 	}
 };

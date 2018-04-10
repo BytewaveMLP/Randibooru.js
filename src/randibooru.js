@@ -27,26 +27,28 @@ client.setProvider(
 client
 	.on('error', console.error)
 	.on('warn', console.warn)
-	.on('debug', async msg => {
+	.on('debug', msg => {
 		if (process.env.NODE_ENV !== 'production') {
 			console.log(msg);
 		}
 	})
-	.on('ready', async () => {
+	.on('ready', () => {
 		console.log(`Initialized - logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`);
-		let link = await client.generateInvite(['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGES']);
-		console.log(`Use this link to invite me to your server: ${link}`);
-		await Helpers.setGame(client);
+		client.generateInvite(['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGES'])
+			.then(link => {
+				console.log(`Use this link to invite me to your server: ${link}`);
+			});
+		Helpers.setGame(client);
 	})
-	.on('disconnect', async () => { console.warn('Disconnected!'); })
-	.on('reconnecting', async () => { console.warn('Reconnecting...'); })
-	.on('guildCreate', async (guild) => {
+	.on('disconnect', () => { console.warn('Disconnected!'); })
+	.on('reconnecting', () => { console.warn('Reconnecting...'); })
+	.on('guildCreate', (guild) => {
 		// Handles case in which guildCreate events could be sent randomly, causing the welcome message to be sent
 		// to servers the bot has already joined.
 		// This doesn't happen often, but once is once too many.
 		if (Date.now() - guild.joinedTimestamp > 120) return;
 
-		await Helpers.setGame(client);
+		Helpers.setGame(client);
 
 		console.log(`Joined server ${guild.name} (${guild.id})`);
 
@@ -60,7 +62,7 @@ client
 			}).array();
 
 			console.log('Posting join message in highest channel with SEND_MESSAGES permission...');
-			await channels[0].send(`**Hey there!** I'm **Randibooru.js**, the next generation of Randibooru! I fetch random images from Derpibooru, the MLP image booru, for your enjoyment.
+			channels[0].send(`**Hey there!** I'm **Randibooru.js**, the next generation of Randibooru! I fetch random images from Derpibooru, the MLP image booru, for your enjoyment.
 
 If you'd like to know what I can do, take a look at the \`${guild.commandPrefix || client.commandPrefix || client.options.commandPrefix}help\` command!
 
@@ -71,27 +73,27 @@ https://github.com/BytewaveMLP/Randibooru.js
 ${config.bot.invite}`).catch(console.error);
 		}
 	})
-	.on('guildDelete', async (guild) => {
-		await Helpers.setGame(client);
+	.on('guildDelete', (guild) => {
+		Helpers.setGame(client);
 		console.log(`Removed from server ${guild.name} (${guild.id})`);
 	})
-	.on('commandError', async (cmd, err) => {
+	.on('commandError', (cmd, err) => {
 		if (err instanceof Commando.FriendlyError) return;
 		console.error(`Error in command ${cmd.groupID}:${cmd.memberName}`, err);
 	})
-	.on('commandBlocked', async (msg, reason) => {
+	.on('commandBlocked', (msg, reason) => {
 		console.log(`Command ${msg.command ? `${msg.command.groupID}:${msg.command.memberName}` : ''} blocked; ${reason}`);
 	})
-	.on('commandPrefixChange', async (guild, prefix) => {
+	.on('commandPrefixChange', (guild, prefix) => {
 		console.log(`Prefix ${prefix === '' ? 'removed' : `changed to ${prefix || 'the default'}`} ${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.`);
 		if (!guild) {
-			await Helpers.setGame(client);
+			Helpers.setGame(client);
 		}
 	})
-	.on('commandStatusChange', async (guild, command, enabled) => {
+	.on('commandStatusChange', (guild, command, enabled) => {
 		console.log(`Command ${command.groupID}:${command.memberName} ${enabled ? 'enabled' : 'disabled'} ${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.`);
 	})
-	.on('groupStatusChange', async (guild, group, enabled) => {
+	.on('groupStatusChange', (guild, group, enabled) => {
 		console.log(`Group ${group.id} ${enabled ? 'enabled' : 'disabled'} ${guild ? `in guild ${guild.name} (${guild.id})` : 'globally'}.`);
 	});
 
