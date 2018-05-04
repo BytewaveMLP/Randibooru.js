@@ -8,19 +8,26 @@ const Helpers = require('../../util/helpers.js');
 module.exports = class AnnounceCommand extends Commando.Command {
 	constructor(client) {
 		super(client, {
-			name: 'updategame',
-			aliases: ['ug'],
+			name: 'setgame',
+			aliases: ['sg'],
 			group: 'util',
-			memberName: 'updategame',
-			description: 'Update the bot\'s game status.',
+			memberName: 'setgame',
+			description: 'Sets the bot\'s game status. Without any arguments, this restores the default status. With arguments, it sets the in-game status to something custom.',
 			details: 'Only the bot owner may use this command.',
-			examples: ['updategame'],
+			examples: ['setgame', 'setgame "Game Name"', 'setgame "Game Name" LISTENING'],
 			guarded: true,
 			args: [
 				{
 					key: 'game',
 					label: 'game',
 					default: '',
+					prompt: '',
+					type: 'string'
+				},
+				{
+					key: 'type',
+					label: 'type',
+					default: 'PLAYING',
 					prompt: '',
 					type: 'string'
 				}
@@ -33,12 +40,20 @@ module.exports = class AnnounceCommand extends Commando.Command {
 	}
 
 	async run(msg, args) {
+		let type;
+
 		if (args.game === '') {
 			Helpers.setGame(this.client);
 		} else {
-			await this.client.user.setGame(args.game);
+			type = args.type.toUpperCase();
+			await this.client.user.setPresence({
+				game: {
+					name: args.game,
+					type: type
+				}
+			});
 		}
 
-		return msg.reply(`Changed in-game status to ${args.game !== '' ? `\`${args.game}\`` : 'the default'}.`);
+		return msg.reply(`Changed in-game status to ${args.game !== '' ? `\`${args.game}\` with type \`${type}\`` : 'the default'}.`);
 	}
 };

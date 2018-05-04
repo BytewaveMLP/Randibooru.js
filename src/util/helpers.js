@@ -29,5 +29,10 @@ exports.getGuildsAndMembers = client => {
 
 exports.setGame = client => {
 	let { members, guilds } = this.getGuildsAndMembers(client);
-	client.user.setGame(`${client.commandPrefix || client.options.commandPrefix}help | ${members} members across ${guilds} guilds`);
+	client.user.setPresence({
+		game: {
+			name:`for ${client.commandPrefix || client.options.commandPrefix}help | ${members} members across ${guilds} guilds`,
+			type: 'WATCHING'
+		}
+	});
 };
