@@ -40,7 +40,7 @@ exports.derpibooruResultToEmbed = (result) => {
 			url: `https:${result.representations.medium}`
 		},
 		footer: {
-			icon_url: 'https://i.imgur.com/GJBeBoQ.jpg',
+			icon_url: 'https://i.imgur.com/qidEKrL.png',
 			text: 'Randibooru.js - Made with <3 by Bytewave'
 		}
 	};
