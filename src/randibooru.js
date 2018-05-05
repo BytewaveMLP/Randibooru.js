@@ -8,7 +8,22 @@ const path = require('path');
 const sqlite = require('sqlite');
 const config = require('../config');
 
-const client = new Commando.Client(config.bot);
+const SANE_DEFAULT_CONFIG = {
+	disableEveryone: true,
+	disabledEvents: [
+		'TYPING_START',
+		'CHANNEL_PINS_UPDATE',
+		'MESSAGE_REACTION_ADD',
+		'MESSAGE_REACTION_REMOVE',
+		'MESSAGE_REACTION_REMOVE_ALL',
+		'VOICE_STATE_UPDATE',
+		'VOICE_SERVER_UPDATE'
+	]
+};
+
+const botConfig = Object.assign({}, SANE_DEFAULT_CONFIG, config.bot);
+
+const client = new Commando.Client(botConfig);
 
 client.config = config;
 
