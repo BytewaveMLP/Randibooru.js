@@ -2,16 +2,15 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
-const derpi = require('./derpi.js');
 const embed = require('./embed.js');
+const Derpibooru = require('node-derpi');
 
 /**
  * Handles an incoming Derpibooru-related command.
  *
  * @param {object} options - The options to pass to Derpibooru
  * @param {string} [options.sortFormat] - The sort format to pull a result from
- * @param {string} [options.order] - The order to sort the results in before retrieving one
+ * @param {string} [options.sortOrder] - The order to sort the results in before retrieving one
  * @param {object} client - The Discord.js client object (this.client in command context)
  * @param {object} msg - The Discord.js message object (first param in async run)
  * @param {object} args - The arguments to the command (second param in async run)
@@ -51,31 +50,31 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 	// Only NSFW channels can have explicit content
 	// (Assumes DMs are fine)
 	if (msg.channel.type === 'dm' || msg.channel.type === 'group') {
-		options.filter = client.config.derpibooru.filters.nsfw;
+		options.filterID = client.config.derpibooru.filters.nsfw;
 		console.debug(`${requestId} Request is in a DM; NSFW filter enabled.`);
 		nsfw = true;
 	} else if (msg.channel.nsfw) {
-		options.filter = msg.guild.settings.get('filter.nsfw', client.config.derpibooru.filters.nsfw);
+		options.filterID = msg.guild.settings.get('filter.nsfw', client.config.derpibooru.filters.nsfw);
 		console.debug(`${requestId} Request was sent in a channel marked NSFW; NSFW filter enabled.`);
 		nsfw = true;
 	} else {
-		options.filter = msg.guild.settings.get('filter.sfw', client.config.derpibooru.filters.sfw);
+		options.filterID = msg.guild.settings.get('filter.sfw', client.config.derpibooru.filters.sfw);
 		console.debug(`${requestId} Request was not sent in an NSFW channel; using SFW filter.`);
 	}
 
-	console.debug(`${requestId} Using filter ID ${options.filter}`);
+	console.debug(`${requestId} Using filter ID ${options.filterID}`);
 
-	derpi.query(options, (err, data) => {
+	Derpibooru.Fetch.search(options).catch(err => {
+		console.debug(`${requestId} Stopping typing notification...`);
+		msg.channel.stopTyping();
+		console.error(`${requestId} ERROR: ${err.message}`);
+		return msg.reply(`An error occurred: ${err.message}`);
+	}).then(searchResults => {
 		// Sometimes, the typing indicator gets stuck, so let's reset it here
 		console.debug(`${requestId} Stopping typing notification...`);
 		msg.channel.stopTyping();
 
-		if (err) {
-			console.error(`${requestId} ERROR: ${err.message}`);
-			return msg.reply(`An error occurred: ${err.message}`);
-		}
-
-		let results = data.search;
+		let results = searchResults.images;
 		let result;
 
 		if (results.length > 0) {

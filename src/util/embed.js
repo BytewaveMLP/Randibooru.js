@@ -14,16 +14,16 @@ exports.derpibooruResultToEmbed = (result) => {
 		title: 'Derpibooru Image',
 		url: `https://derpibooru.org/${result.id}`,
 		author: {
-			name: `Uploaded by: ${result.uploader}`
+			name: `Uploaded by: ${result.uploaderName}`
 		},
 		fields: [
 			{
 				name: 'Tags',
-				value: result.tags.split(', ').splice(0, 10).join(', ') + (result.tags.length > 10 ? '...' : '')
+				value: result.tagString.split(', ').splice(0, 10).join(', ') + (result.tags.length > 10 ? '...' : '')
 			},
 			{
 				name: 'Uploaded on',
-				value: new Date(result.created_at).toDateString()
+				value: result.created.toDateString()
 			},
 			{
 				name: 'Score',
@@ -32,12 +32,12 @@ exports.derpibooruResultToEmbed = (result) => {
 			},
 			{
 				name: 'Faves',
-				value: `${result.faves}`,
+				value: `${result.favorites}`,
 				inline: true
 			}
 		],
 		image: {
-			url: `https:${result.representations.medium}`
+			url: result.representations.medium
 		},
 		footer: {
 			icon_url: 'https://i.imgur.com/qidEKrL.png',
@@ -45,7 +45,7 @@ exports.derpibooruResultToEmbed = (result) => {
 		}
 	};
 
-	if (result.uploader_id) data.author.url = `https://derpibooru.org/profiles/${encodeURIComponent(result.uploader)}`;
+	if (result.uploaderID !== -1) data.author.url = `https://derpibooru.org/profiles/${encodeURIComponent(result.uploaderName)}`;
 
 	return data;
 };
