@@ -24,7 +24,7 @@ exports.getGuildsAndMembers = client => {
 
 	let guilds = client.guilds.array().length;
 
-	return { members: members, guilds: guilds };
+	return { members: members.toLocaleString(), guilds: guilds.toLocaleString() };
 };
 
 exports.setGame = client => {
