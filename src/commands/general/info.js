@@ -19,13 +19,13 @@ module.exports = class InfoCommand extends Commando.Command {
 	}
 
 	async run(msg) {
-		let { guilds, members } = Helpers.getGuildsAndMembers(this.client);
+		let { guilds, members } = await Helpers.getGuildsAndMembers(this.client);
 
 		let link = await this.client.generateInvite(['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGES']);
 
 		msg.reply(`**Hey there!** I'm **Randibooru.js**, the next generation of Randibooru! I fetch random images from Derpibooru, the MLP image booru, for your enjoyment.
 
-I'm currently serving ${members} members across ${guilds} guilds, and hope to grow soon! If you want to help me grow, feel free to invite me to your server!
+I'm currently serving ${members.toLocaleString()} members across ${guilds.toLocaleString()} guilds, and hope to grow soon! If you want to help me grow, feel free to invite me to your server!
 <${link}>
 
 If you need help getting me to work, try using the \`${msg.guild ? (msg.guild.commandPrefix || this.client.commandPrefix || this.client.options.commandPrefix) : ''}help\` command. From there, you can see a list of all the commands I have available.

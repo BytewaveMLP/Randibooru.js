@@ -43,7 +43,7 @@ module.exports = class AnnounceCommand extends Commando.Command {
 		let type;
 
 		if (args.game === '') {
-			Helpers.setGame(this.client);
+			await Helpers.setGame(this.client);
 		} else {
 			type = args.type.toUpperCase();
 			await this.client.user.setPresence({
