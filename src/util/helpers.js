@@ -34,29 +34,31 @@ exports.getGuildsAndMembers = async (client) => {
 exports.setGame = async (client) => {
 	let { members, guilds } = await this.getGuildsAndMembers(client);
 
-	await Promise.all(client.config.statusApi.sites.map(async (site) => {
-		return new Promise((resolve, reject) => {
-			request.post(
-				{
-					uri: `https://${site.url}/api/bots/${client.user.id}/stats`,
-					headers: {
-						Authorization: site.token
+	if (client.config.statusApi) {
+		await Promise.all(client.config.statusApi.sites.map(async (site) => {
+			return new Promise((resolve, reject) => {
+				request.post(
+					{
+						uri: `https://${site.url}/api/bots/${client.user.id}/stats`,
+						headers: {
+							Authorization: site.token
+						},
+						json: {
+							server_count: guilds
+						}
 					},
-					json: {
-						server_count: guilds
+					(err, res) => {
+						if (err) return reject(err);
+
+						const status = res.statusCode;
+						if (![200, 204, 301].includes(status)) return reject(new Error(`Received unexpected status code: ${status} at URL ${site.url}`));
+
+						return resolve();
 					}
-				},
-				(err, res, body) => {
-					if (err) return reject(err);
-
-					const status = res.statusCode;
-					if (![200, 204, 301].includes(status)) return reject(new Error(`Received unexpected status code: ${status} at URL ${site.url}`));
-
-					return resolve();
-				}
-			)
-		});
-	}));
+				);
+			});
+		}));
+	}
 
 	return client.user.setPresence({
 		game: {
