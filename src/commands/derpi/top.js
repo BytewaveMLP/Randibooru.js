@@ -27,7 +27,7 @@ module.exports = class TopCommand extends Commando.Command {
 	}
 
 	async run(msg, args) {
-		handler.handleDerpiCommand({
+		return handler.handleDerpiCommand({
 			sortFormat: 'score'
 		}, this.client, msg, args);
 	}

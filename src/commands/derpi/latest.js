@@ -27,7 +27,7 @@ module.exports = class LatestCommand extends Commando.Command {
 	}
 
 	async run(msg, args) {
-		handler.handleDerpiCommand({
+		return handler.handleDerpiCommand({
 			sortFormat: 'created_at',
 			sortOrder: 'desc'
 		}, this.client, msg, args);

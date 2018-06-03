@@ -15,7 +15,7 @@ const Derpibooru = require('node-derpi');
  * @param {object} msg - The Discord.js message object (first param in async run)
  * @param {object} args - The arguments to the command (second param in async run)
  */
-exports.handleDerpiCommand = (options, client, msg, args) => {
+exports.handleDerpiCommand = async (options, client, msg, args) => {
 	let requestId = `[${new Date().toISOString()}] [@${msg.author.username}#${msg.author.discriminator} in `;
 
 	if (msg.channel.type === 'dm') {
@@ -41,7 +41,7 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 	}
 
 	console.debug(`${requestId} Sending typing notification...`);
-	msg.channel.startTyping();
+	await msg.channel.startTyping();
 
 	options.query = args.query;
 
@@ -64,35 +64,39 @@ exports.handleDerpiCommand = (options, client, msg, args) => {
 
 	console.debug(`${requestId} Using filter ID ${options.filterID}`);
 
-	Derpibooru.Fetch.search(options).catch(err => {
+	let searchResults;
+
+	try {
+		searchResults = await Derpibooru.Fetch.search(options);
+	} catch (err) {
 		console.debug(`${requestId} Stopping typing notification...`);
-		msg.channel.stopTyping();
+		await msg.channel.stopTyping();
 		console.error(`${requestId} ERROR: ${err.message}`);
 		return msg.reply(`An error occurred: ${err.message}`);
-	}).then(searchResults => {
-		// Sometimes, the typing indicator gets stuck, so let's reset it here
-		console.debug(`${requestId} Stopping typing notification...`);
-		msg.channel.stopTyping();
+	}
 
-		let results = searchResults.images;
-		let result;
+	// Sometimes, the typing indicator gets stuck, so let's reset it here
+	console.debug(`${requestId} Stopping typing notification...`);
+	await msg.channel.stopTyping();
 
-		if (results.length > 0) {
-			result = results[options.sortFormat === 'random' ? Math.floor(Math.random() * results.length) : 0];
-		}
+	let results = searchResults.images;
+	let result;
 
-		if (result === undefined) {
-			console.info(`${requestId} No results found.`);
-			return msg.reply(`No ${!nsfw ? 'safe-for-work ' : ''}images found for query: \`${args.query}\``);
-		}
+	if (results.length > 0) {
+		result = results[options.sortFormat === 'random' ? Math.floor(Math.random() * results.length) : 0];
+	}
 
-		console.info(`${requestId} Result found - https://derpibooru.org/${result.id}; sending embed...`);
+	if (result === undefined) {
+		console.info(`${requestId} No results found.`);
+		return msg.reply(`No ${!nsfw ? 'safe-for-work ' : ''}images found for query: \`${args.query}\``);
+	}
 
-		console.debug(`${requestId} Creating embed from result...`);
-		let replyEmbed = embed.derpibooruResultToEmbed(result);
+	console.info(`${requestId} Result found - https://derpibooru.org/${result.id}; sending embed...`);
 
-		return msg.reply(args.query !== '' ? `query: \`${args.query}\`` : '', {
-			embed: replyEmbed
-		});
+	console.debug(`${requestId} Creating embed from result...`);
+	let replyEmbed = await embed.derpibooruResultToEmbed(result);
+
+	return msg.reply(args.query !== '' ? `query: \`${args.query}\`` : '', {
+		embed: replyEmbed
 	});
 };
