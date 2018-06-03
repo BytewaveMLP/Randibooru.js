@@ -50,7 +50,7 @@ exports.derpibooruResultToEmbed = async (result) => {
 
 		if (result.uploaderID !== -1) data.author.url = `https://derpibooru.org/profiles/${encodeURIComponent(result.uploaderName)}`;
 
-		// Can't prcess webms
+		// Can't process webms
 		if (result.representations.thumbnailSmall.split('.').pop() === 'webm') return resolve(data);
 
 		Jimp.read(result.representations.thumbnailSmall, (err, image) => {
@@ -60,7 +60,13 @@ exports.derpibooruResultToEmbed = async (result) => {
 				return resolve(data);
 			}
 
-			data.color = parseInt(ColorThief.getColorHex(image), 16);
+			try {
+				data.color = parseInt(ColorThief.getColorHex(image), 16);
+			} catch (err) {
+				// Again, it isn't fatal, so we can just continue
+				console.error(err);
+			}
+
 			resolve(data);
 		});
 	});
