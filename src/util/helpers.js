@@ -34,18 +34,41 @@ exports.getGuildsAndMembers = async (client) => {
 exports.setGame = async (client) => {
 	let { members, guilds } = await this.getGuildsAndMembers(client);
 
+	// {
+	//   config data...
+	//   "statusApi": {
+	//     "sites": [
+	//       {
+	//         "url": "bots.discord.pw",
+	//         "token": "foo"
+	//       }
+	//     ], ...
+	//   }
+	// }
+	// Follows the API documentation available @ https://bots.discord.pw/api and https://discordbots.org/api/docs#bots
+	// (Due to shoddy documentation, this may not be 100% compliant, but it's good enough until I actually start sharding)
 	if (client.config.statusApi) {
 		await Promise.all(client.config.statusApi.sites.map(async (site) => {
 			return new Promise((resolve, reject) => {
+				let requestData = {
+					server_count: guilds
+				};
+
+				// Sharding support
+				// I don't use this (yet), but it's good in case this bot gets big enough for it to matter
+				// (or for people who want this code for themselves)
+				if (client.shard) {
+					requestData.shard_id = client.shard.id;
+					requestData.shard_count = client.shard.count;
+				}
+
 				request.post(
 					{
 						uri: `https://${site.url}/api/bots/${client.user.id}/stats`,
 						headers: {
 							Authorization: site.token
 						},
-						json: {
-							server_count: guilds
-						}
+						json: requestData
 					},
 					(err, res) => {
 						if (err) return reject(err);
