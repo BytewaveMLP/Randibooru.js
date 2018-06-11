@@ -2,7 +2,7 @@
   "name": "randibooru",
   "version": "0.1.0",
   "description": "",
-  "main": "src/randibooru.js",
+  "main": "src/sharder.js",
   "dependencies": {
     "color-thief-jimp": "^2.0.2",
     "discord.js": "^11.2.1",
