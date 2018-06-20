@@ -86,7 +86,7 @@ You can block problematic users by using the `block` command. This prevents the 
 
 To unblock a user, use the `unblock` command.
 
-Blocks may only be put in place by users with the **Manage Messages** permission.
+Blocks may only be put in place by users with the `Manage Messages` permission.
 
 ## Maintainers
 
