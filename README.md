@@ -78,7 +78,7 @@ The `SFW` filter will be used in most channels. By default, this is set to Derpi
 
 The `NSFW` filter will be used in NSFW-marked channels. By default, this is set to Derpibooru's [Everything](https://derpibooru.org/filters/56027) filter, which may be a little extreme for some servers. It is recommended that you choose a more suitable filter for this by default, or optionally create your own if none of the defaults are to your needs.
 
-Filters may only be set by the server owner at this time.
+Filters may only be set by the users with the `Manage Channels` permission.
 
 #### Blocking
 
