@@ -29,11 +29,10 @@ module.exports = class FilterCommand extends Commando.Command {
 					type: 'string',
 				}
 			],
+			userPermissions: [
+				'MANAGE_CHANNELS',
+			],
 		});
-	}
-
-	hasPermission(msg) {
-		return msg.author.id === msg.guild.ownerID;
 	}
 
 	async run(msg, args) {
