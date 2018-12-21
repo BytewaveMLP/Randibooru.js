@@ -64,7 +64,7 @@ exports.setGame = async (client) => {
 
 				request.post(
 					{
-						uri: `https://${site.url}/api/bots/${client.user.id}/stats`,
+						uri: `${site.url}/bots/${client.user.id}/stats`,
 						headers: {
 							Authorization: site.token
 						},
