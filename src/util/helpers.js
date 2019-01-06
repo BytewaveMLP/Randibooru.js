@@ -10,29 +10,16 @@ const request = require('request');
  * @param {CommandoClient} client - The Discord.JS-Commando Client object
  * @returns {object} - An object containing two properties, guilds and members, each representing the associated counts.
  */
-exports.getGuildsAndMembers = async (client) => {
+exports.getGuilds = async (client) => {
 	return new Promise((resolve, reject) => {
-		// Algorithm provided by CyberPon3
-		// https://github.com/CyberPon3
-		let members = client.guilds.reduce(
-			(acc, guild) => {
-				guild.members
-					.filter(member => !member.user.bot)
-					.forEach(member => acc.add(member.id));
-
-				return acc;
-			},
-			new Set()
-		).size;
-
 		let guilds = client.guilds.array().length;
 
-		resolve({ members: members, guilds: guilds });
+		resolve(guilds);
 	});
 };
 
 exports.setGame = async (client) => {
-	let { members, guilds } = await this.getGuildsAndMembers(client);
+	let guilds = await this.getGuilds(client);
 
 	// {
 	//   config data...
@@ -85,7 +72,7 @@ exports.setGame = async (client) => {
 
 	return client.user.setPresence({
 		game: {
-			name:`for ${client.commandPrefix || client.options.commandPrefix}help | ${members.toLocaleString()} members across ${guilds.toLocaleString()} guilds`,
+			name:`for ${client.commandPrefix || client.options.commandPrefix}help in ${guilds.toLocaleString()} servers`,
 			type: 'WATCHING'
 		}
 	});
