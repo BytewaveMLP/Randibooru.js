@@ -53,7 +53,7 @@ exports.setGame = async (client) => {
 					{
 						uri: `${site.url}/bots/${client.user.id}/stats`,
 						headers: {
-							Authorization: site.token
+							Authorization: `${site.authPrefix || ''}${site.token}` // sure love noncompliant sites (looking at you, https://discordbotlist.com)
 						},
 						json: requestData
 					},
