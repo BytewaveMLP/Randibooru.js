@@ -79,6 +79,8 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 	console.debug(`${requestId} Stopping typing notification...`);
 	await msg.channel.stopTyping();
 
+	let messagePrefix = args.query !== '' ? `query: \`${args.query}\`: ` : '';
+	
 	let results = searchResults.images;
 	let result;
 
@@ -88,7 +90,10 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 
 	if (result === undefined) {
 		console.info(`${requestId} No results found.`);
-		return msg.reply(`No ${!nsfw ? 'safe-for-work ' : ''}images found for query: \`${args.query}\``);
+		return msg.reply(`${messagePrefix}No ${!nsfw ? 'safe-for-work ' : ''}images found for query: \`${args.query}\``);
+	} else if (client.config.derpibooru.blockedTags && result.tagString.split(', ').some(tag => client.config.derpibooru.blockedTags.includes(tag))) {
+		console.log(`${requestId} Result found, but would violate blocked tag rules`);
+		return msg.reply(`${messagePrefix}A result was found, but was blocked by the bot's host, likely due to ToS enforcement. See https://discordapp.com/guidelines.`);
 	}
 
 	console.info(`${requestId} Result found - https://derpibooru.org/${result.id}; sending embed...`);
@@ -96,7 +101,7 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 	console.debug(`${requestId} Creating embed from result...`);
 	let replyEmbed = await embed.derpibooruResultToEmbed(result);
 
-	return msg.reply(args.query !== '' ? `query: \`${args.query}\`` : '', {
+	return msg.reply(messagePrefix, {
 		embed: replyEmbed
 	});
 };
