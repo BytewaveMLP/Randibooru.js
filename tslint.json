@@ -1,0 +1,14 @@
+{
+	"extends": "tslint-config-standard",
+	"rules": {
+		"ter-indent": ["error", "tab", 4],
+		"semicolon": [true, "always"],
+		"space-before-function-paren": [true, {
+			"anonymous": "always",
+			"named": "never",
+			"asyncArrow": "always"
+		}],
+		"no-unused-variable": [true],
+		"no-multi-spaces": false
+	}
+}

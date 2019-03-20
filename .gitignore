@@ -13,7 +13,7 @@ node_modules/
 .node_repl_history
 
 settings.sqlite3
-build/
+dist/
 
 config.json
 

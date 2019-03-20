@@ -1,24 +1,26 @@
-const request = require('request');
-
-/* This Source Code Form is subject to the terms of the Mozilla Public
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+import * as Discord from 'discord.js';
+import * as Commando from 'discord.js-commando';
+import * as request from 'request';
+
+import { RandibooruClient } from '../../types/RandibooruClient';
 
 /**
  * Gets the current guild and UNIQUE member counts.
  *
- * @param {CommandoClient} client - The Discord.JS-Commando Client object
- * @returns {object} - An object containing two properties, guilds and members, each representing the associated counts.
+ * @param client - The Discord.JS-Commando Client object
+ * @returns An object containing two properties, guilds and members, each representing the associated counts.
  */
-exports.getGuilds = async (client) => {
-	return new Promise((resolve, reject) => {
-		let guilds = client.guilds.array().length;
+export async function getGuilds(client: RandibooruClient): Promise<number> {
+	return client.guilds.array().length;
+}
 
-		resolve(guilds);
-	});
-};
-
-exports.setGame = async (client) => {
+export async function setGame(client: RandibooruClient): Promise<Discord.ClientUser> {
 	let guilds = await this.getGuilds(client);
 
 	// {
@@ -37,7 +39,9 @@ exports.setGame = async (client) => {
 	if (client.config.statusApi) {
 		await Promise.all(client.config.statusApi.sites.map(async (site) => {
 			return new Promise((resolve, reject) => {
-				let requestData = {
+				type StatusAPIRequestData = { server_count: number, shard_id?: number, shard_count?: number };
+
+				let requestData: StatusAPIRequestData = {
 					server_count: guilds
 				};
 
@@ -72,8 +76,8 @@ exports.setGame = async (client) => {
 
 	return client.user.setPresence({
 		game: {
-			name:`for ${client.commandPrefix || client.options.commandPrefix}help in ${guilds.toLocaleString()} servers`,
+			name: `for ${client.commandPrefix || (client.options as Commando.CommandoClientOptions).commandPrefix}help in ${guilds.toLocaleString()} servers`,
 			type: 'WATCHING'
 		}
 	});
-};
+}
