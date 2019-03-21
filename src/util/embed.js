@@ -45,7 +45,7 @@ exports.derpibooruResultToEmbed = async (result) => {
 			fields: [
 				{
 					name: 'Tags',
-					value: result.tagString.split(', ').splice(0, 10).join(', ') + (result.tags.length > 10 ? '...' : '')
+					value: result.tagNames.splice(0, 10).join(', ') + (result.tagNames.length > 10 ? '...' : '')
 				},
 				{
 					name: 'Uploaded',
