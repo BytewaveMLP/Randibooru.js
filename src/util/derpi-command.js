@@ -91,7 +91,7 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 	if (result === undefined) {
 		console.info(`${requestId} No results found.`);
 		return msg.reply(`${messagePrefix}No ${!nsfw ? 'safe-for-work ' : ''}images found for query: \`${args.query}\``);
-	} else if (client.config.derpibooru.blockedTags && result.tagString.split(', ').some(tag => client.config.derpibooru.blockedTags.includes(tag))) {
+	} else if (client.config.derpibooru.blockedTags && result.tagNames.some(tag => client.config.derpibooru.blockedTags.includes(tag))) {
 		console.log(`${requestId} Result found, but would violate blocked tag rules`);
 		return msg.reply(`${messagePrefix}A result was found, but was blocked by the bot's host, likely due to ToS enforcement. See https://discordapp.com/guidelines.`);
 	}
