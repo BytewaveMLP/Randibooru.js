@@ -31,7 +31,7 @@ function slugify(param) {
 exports.derpibooruResultToEmbed = async (result) => {
 	return new Promise((resolve) => {
 		let uploaderNameText = `${result.uploaderName}`;
-		if (result.uploaderID !== -1) {
+		if (result.uploaderID && result.uploaderID > 0) {
 			uploaderNameText = `[${uploaderNameText}](https://derpibooru.org/profiles/${encodeURIComponent(result.uploaderName)})`;
 		}
 
