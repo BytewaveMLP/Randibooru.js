@@ -5,6 +5,24 @@ const Jimp = require('jimp');
 const ColorThief = require('color-thief-jimp');
 
 /**
+ * Helper function to slugify a URL parameter using the same format Derpibooru uses
+ * 
+ * See https://github.com/BytewaveMLP/node-derpi/blob/8e50b1e4a59365e3bac75bad15292c18a20c50ab/lib/util/Helpers.ts
+ *
+ * @param {string} param - The URL parameter to slugify
+ * @returns The sluggified parameter
+ */
+function slugify(param) {
+	return param
+		.replace('-', '-dash-')
+		.replace('/', '-fwslash-')
+		.replace('\\', '-bwslash-')
+		.replace(':', '-colon-')
+		.replace('.', '-dot-')
+		.replace('+', '-plus-');
+}
+
+/**
  * Converts a Derpibooru image to a Discord.js embed
  *
  * @param {object} result - The image to convert
@@ -12,12 +30,17 @@ const ColorThief = require('color-thief-jimp');
  */
 exports.derpibooruResultToEmbed = async (result) => {
 	return new Promise((resolve) => {
+		let uploaderNameText = `${result.uploaderName}`;
+		if (result.uploaderID !== -1) {
+			uploaderNameText = `[${uploaderNameText}](https://derpibooru.org/profiles/${encodeURIComponent(result.uploaderName)})`;
+		}
+
 		let data = {
 			color: Math.floor(Math.random() * (16777216)),
 			title: 'Derpibooru Image',
 			url: `https://derpibooru.org/${result.id}`,
 			author: {
-				name: `Uploaded by: ${result.uploaderName}`
+				name: 'Unknown Artist'
 			},
 			fields: [
 				{
@@ -25,8 +48,8 @@ exports.derpibooruResultToEmbed = async (result) => {
 					value: result.tagString.split(', ').splice(0, 10).join(', ') + (result.tags.length > 10 ? '...' : '')
 				},
 				{
-					name: 'Uploaded on',
-					value: result.created.toDateString()
+					name: 'Uploaded',
+					value: `${result.created.toDateString()} by ${uploaderNameText}`
 				},
 				{
 					name: 'Score',
@@ -48,7 +71,10 @@ exports.derpibooruResultToEmbed = async (result) => {
 			}
 		};
 
-		if (result.uploaderID !== -1) data.author.url = `https://derpibooru.org/profiles/${encodeURIComponent(result.uploaderName)}`;
+		if (result.artistName) {
+			data.author.name = result.artistName;
+			data.author.url  = `https://derpibooru.org/tags/${slugify(`artist:${result.artistName}`)}`;
+		}
 
 		// Can't process webms
 		if (result.representations.thumbnailSmall.split('.').pop() === 'webm') return resolve(data);
