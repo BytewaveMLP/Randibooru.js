@@ -67,7 +67,6 @@ module.exports = class ReverseCommand extends Commando.Command {
 		console.log(`${requestId} Search URL: ${searchUrl}`);
 
 		const results = await Derpibooru.Fetch.reverseImageSearch({
-			key: '',
 			url: searchUrl
 		});
 
