@@ -1,6 +1,6 @@
 # Randibooru.js
 
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme) [![Discord Bots](https://discordbots.org/api/widget/status/206204053653291009.svg)](https://discordbots.org/bot/206204053653291009)
+[![Discord Bots](https://discordbots.org/api/widget/status/206204053653291009.svg)](https://discordbots.org/bot/206204053653291009) [![Discord chat](https://img.shields.io/discord/275711953274404866.svg?logo=discord&color=7289DA&label=Discord%20chat)](https://discord.gg/AukVbRR)
 
 > A Node.js port of [Randibooru](https://github.com/BytewaveMLP/randibooru)
 
