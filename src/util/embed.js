@@ -73,7 +73,7 @@ exports.derpibooruResultToEmbed = async (result) => {
 
 		if (result.artistName) {
 			data.author.name = result.artistName;
-			data.author.url  = `https://derpibooru.org/tags/${slugify(`artist:${result.artistName}`)}`;
+			data.author.url  = `https://derpibooru.org/tags/${encodeURIComponent(slugify(`artist:${result.artistName}`))}`;
 		}
 
 		// Can't process webms
