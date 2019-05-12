@@ -4,12 +4,12 @@
   "description": "",
   "main": "src/randibooru.js",
   "dependencies": {
+    "@discordjs/uws": "^10.149.0",
     "color-thief-jimp": "^2.0.2",
     "discord.js": "^11.2.1",
     "discord.js-commando": "^0.10.0",
     "node-derpi": "^0.3.0",
-    "sqlite": "^2.9.0",
-    "uws": "^9.14.0"
+    "sqlite": "^2.9.0"
   },
   "devDependencies": {},
   "scripts": {
