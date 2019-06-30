@@ -19,6 +19,7 @@ Randibooru.js is my first experiment in Node.js. My goal is to attempt to port R
 	- [Moderators/Server Owners](#moderatorsserver-owners)
 		- [Filters](#filters)
 		- [Blocking](#blocking)
+		- [Embed resolution][#embed-resolution]
 - [Maintainers](#maintainers)
 - [Contribute](#contribute)
 - [License](#license)
@@ -87,6 +88,15 @@ You can block problematic users by using the `block` command. This prevents the 
 To unblock a user, use the `unblock` command.
 
 Blocks may only be put in place by users with the **Manage Messages** permission.
+
+#### Embed resolution
+
+You can set the resolution Randibooru uses for image embeds using the `res` command. Acceptable values are `full`, `high`, `med`/`medium`, and `low`.
+
+- `full`: full resolution, no resizing
+- `high`: ~1500x maximum
+- `med`/`medium`: ~750x maximum (*default*)
+- `low`: ~300x maximum
 
 ## Maintainers
 

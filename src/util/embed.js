@@ -63,7 +63,7 @@ exports.derpibooruResultToEmbed = async (result) => {
 				}
 			],
 			image: {
-				url: result.representations.large
+				url: result.representations.medium
 			},
 			footer: {
 				icon_url: 'https://i.imgur.com/qidEKrL.png',

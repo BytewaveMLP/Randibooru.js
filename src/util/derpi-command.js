@@ -101,6 +101,21 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 	console.debug(`${requestId} Creating embed from result...`);
 	let replyEmbed = await embed.derpibooruResultToEmbed(result);
 
+	switch (msg.guild.settings.get('embedResolution')) {
+	case 'full':
+		replyEmbed.image.url = result.representations.full;
+		break;
+	case 'high':
+		replyEmbed.image.url = result.representations.large;
+		break;
+	case 'medium':
+		replyEmbed.image.url = result.representations.medium;
+		break;
+	case 'low':
+		replyEmbed.image.url = result.representations.small;
+		break;
+	}
+
 	return msg.reply(messagePrefix, {
 		embed: replyEmbed
 	});
