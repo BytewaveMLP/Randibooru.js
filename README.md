@@ -63,6 +63,8 @@ All queries are passed directly to Derpibooru, and use their [search syntax](htt
 
 Commands may be run in servers, or in a DM. In servers, NSFW images will only be sent to channels marked NSFW, and in DMs the NSFW filter is always used.
 
+There's also a `deletthis` command, for when the most recent image was just *that* bad.
+
 For users, this is all you need to know. However...
 
 ### Moderators/Server Owners
