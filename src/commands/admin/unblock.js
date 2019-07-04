@@ -24,7 +24,7 @@ module.exports = class UnblockCommand extends Commando.Command {
 			],
 			userPermissions: [
 				'MANAGE_MESSAGES',
-			]
+			],
 		});
 	}
 

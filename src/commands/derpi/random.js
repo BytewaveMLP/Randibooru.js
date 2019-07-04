@@ -22,7 +22,7 @@ module.exports = class RandomCommand extends Commando.Command {
 					prompt: '',
 					type: 'string'
 				}
-			]
+			],
 		});
 	}
 

@@ -24,7 +24,7 @@ module.exports = class BlockCommand extends Commando.Command {
 			],
 			userPermissions: [
 				'MANAGE_MESSAGES',
-			]
+			],
 		});
 	}
 

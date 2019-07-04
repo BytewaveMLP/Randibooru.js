@@ -22,7 +22,7 @@ module.exports = class LatestCommand extends Commando.Command {
 					prompt: '',
 					type: 'string'
 				}
-			]
+			],
 		});
 	}
 
