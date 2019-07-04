@@ -1,0 +1,29 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+const Commando = require('discord.js-commando');
+const Helpers = require('../../util/helpers.js');
+ 
+module.exports = class InfoCommand extends Commando.Command {
+	constructor(client) {
+		super(client, {
+			name: 'deletthis',
+			aliases: ['delet', 'dt', 'plsno', 'why'],
+			group: 'commands',
+			memberName: 'delet-this',
+			description: 'Delete the most recent message sent by the bot, in case it was really bad. In future, you might want to use the `filter` command to change hte server-wide filter. See `help filter`.',
+			examples: ['deletthis', 'delet', 'dt', 'plsno', 'why'],
+		});
+	}
+ 
+	async run(msg) {
+		const messages = msg.channel.messages.size > 20 ? msg.channel.messages : await msg.channel.fetchMessages();
+		const myRecentMessages = messages.filter(message => message.author.id === this.client.user.id);
+		const latestMessage = myRecentMessages.reduce((previous, message) => message.createdAt > previous.createdAt ? message : previous);
+
+		if (!latestMessage) return msg.reply('Couldn\'t find a recent message to delete! Call an admin instead.');
+
+		return latestMessage.delete();
+	}
+};
