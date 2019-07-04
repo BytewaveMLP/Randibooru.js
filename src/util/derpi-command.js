@@ -79,7 +79,7 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 	console.debug(`${requestId} Stopping typing notification...`);
 	await msg.channel.stopTyping();
 
-	let messagePrefix = args.query !== '' ? `query: \`${args.query}\`: ` : '';
+	let messagePrefix = args.query !== '' ? `query: \`${args.query.substr(0, 200) + (args.query.length > 200 ? '...' : '')}\`: ` : '';
 	
 	let results = searchResults.images;
 	let result;
@@ -90,13 +90,13 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 
 	if (result === undefined) {
 		console.info(`${requestId} No results found.`);
-		return msg.reply(`${messagePrefix}No ${!nsfw ? 'safe-for-work ' : ''}images found for query: \`${args.query}\``);
+		return msg.reply(`${messagePrefix}No ${!nsfw ? 'safe-for-work ' : ''}images found`);
 	} else if (client.config.derpibooru.blockedTags && result.tagNames.some(tag => client.config.derpibooru.blockedTags.includes(tag))) {
-		console.log(`${requestId} Result found, but would violate blocked tag rules`);
+		console.log(`${requestId} Result https://derpibooru.org/${result.id} violates blocked tag rules`);
 		return msg.reply(`${messagePrefix}A result was found, but was blocked by the bot's host, likely due to ToS enforcement. See https://discordapp.com/guidelines.`);
 	}
 
-	console.info(`${requestId} Result found - https://derpibooru.org/${result.id}; sending embed...`);
+	console.info(`${requestId} Result found - https://derpibooru.org/${result.id}`);
 
 	console.debug(`${requestId} Creating embed from result...`);
 	let replyEmbed = await embed.derpibooruResultToEmbed(result);
