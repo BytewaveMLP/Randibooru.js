@@ -22,6 +22,8 @@ module.exports = class InfoCommand extends Commando.Command {
 		const myRecentMessages = messages.filter(message => message.author.id === this.client.user.id);
 		const latestMessage = myRecentMessages.reduce((previous, message) => message.createdAt > previous.createdAt ? message : previous);
 
+		if (msg.channel.type === 'text' && msg.guild.settings.get(`blockedUsers.${msg.author.id}`)) return;
+
 		if (!latestMessage) return msg.reply('Couldn\'t find a recent message to delete! Call an admin instead.');
 
 		return latestMessage.delete();
