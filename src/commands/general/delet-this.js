@@ -13,7 +13,7 @@ module.exports = class InfoCommand extends Commando.Command {
 			group: 'commands',
 			memberName: 'delet-this',
 			description: 'Delete the most recent message sent by the bot, in case it was really bad. In future, you might want to use the `filter` command to change the server-wide filter. See `help filter`.',
-			examples: ['deletthis', 'delet', 'dt', 'plsno', 'why'],
+			examples: ['deletthis', 'delet', 'dt', 'delete', 'plsno', 'why'],
 		});
 	}
  
