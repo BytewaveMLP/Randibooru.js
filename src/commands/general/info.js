@@ -13,7 +13,6 @@ module.exports = class InfoCommand extends Commando.Command {
 			group: 'commands',
 			memberName: 'info',
 			description: 'Gets basic info about me, including a link to my Discord server and source code.',
-			examples: ['info'],
 			guarded: true,
 		});
 	}

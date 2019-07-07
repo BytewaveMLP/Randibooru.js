@@ -12,7 +12,6 @@ module.exports = class InviteCommand extends Commando.Command {
 			group: 'commands',
 			memberName: 'invite',
 			description: 'Displays a link to invite me to your own Discord server.',
-			examples: ['invite'],
 			guarded: true,
 		});
 	}
