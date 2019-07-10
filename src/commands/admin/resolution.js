@@ -12,7 +12,8 @@ module.exports = class FilterCommand extends Commando.Command {
 			aliases: ['res'],
 			group: 'admin',
 			memberName: 'resolution',
-			description: 'Set Randibooru\'s preferred resolution for image embeds. Higher values will make images in embeds appear nicer on high-DPI displays, but may cause issues on mobile devices with animated or absurd resolution images.\n`full`: full resolution, no resizing\n`high`: ~1500x maximum\n`med`/`medium`: ~750x maximum (*default*)\n`low`: ~300x maximum',
+			description: 'Set Randibooru\'s preferred resolution for image embeds.',
+			details: 'Higher values will make images in embeds appear nicer on high-DPI displays, but may cause issues on mobile devices with animated or absurd resolution images.\n`full`: full resolution, no resizing\n`high`: ~1500x maximum\n`med`/`medium`: ~750x maximum (*default*)\n`low`: ~300x maximum',
 			examples: ['res full', 'res high', 'res medium', 'res low'],
 			args: [
 				{

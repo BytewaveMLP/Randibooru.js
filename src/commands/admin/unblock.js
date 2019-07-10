@@ -18,7 +18,7 @@ module.exports = class UnblockCommand extends Commando.Command {
 				{
 					key: 'user',
 					label: 'user',
-					prompt: 'Which user should we unblock?',
+					prompt: 'Which user should be unblocked?',
 					type: 'user'
 				}
 			],

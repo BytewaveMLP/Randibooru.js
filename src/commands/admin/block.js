@@ -13,12 +13,13 @@ module.exports = class BlockCommand extends Commando.Command {
 			group: 'admin',
 			memberName: 'block',
 			description: 'Block a user from using Randibooru in the current server.',
+			details: 'Prevents the bot from responding to any Derpibooru-related commands issued by the given user. Unblock the user with the matching `unblock` command.',
 			examples: ['block @somedude#1234'],
 			args: [
 				{
 					key: 'user',
 					label: 'user',
-					prompt: 'Which user should we block?',
+					prompt: 'Which user should be blocked?',
 					type: 'user'
 				}
 			],
