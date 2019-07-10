@@ -9,7 +9,7 @@ module.exports = class InfoCommand extends Commando.Command {
 	constructor(client) {
 		super(client, {
 			name: 'deletthis',
-			aliases: ['delet', 'deletethis', 'dt', 'delete', 'plsno', 'why'],
+			aliases: ['delet', 'deletethis', 'dt', 'delete', 'plsno', 'why', 'd'],
 			group: 'commands',
 			memberName: 'delet-this',
 			description: 'Delete the most recent message sent by the bot, in case it was really bad. In future, you might want to use the `filter` command to change the server-wide filter. See `help filter`.',
