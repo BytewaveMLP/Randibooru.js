@@ -12,7 +12,8 @@ module.exports = class FirstCommand extends Commando.Command {
 			aliases: ['f'],
 			group: 'derpi',
 			memberName: 'first',
-			description: 'Gets the first image uploaded to Derpibooru matching the given query - uses Derpibooru\'s syntax (<https://derpibooru.org/search/syntax>)',
+			description: 'Gets the first image uploaded to Derpibooru matching the given query',
+			details: 'Sorts images by upload date, and picks the oldest image.\nDerpibooru\'s search syntax: <https://derpibooru.org/search/syntax>',
 			examples: ['first', 'first safe', 'first safe, -anthro, (this OR that)'],
 			args: [
 				{
