@@ -12,7 +12,8 @@ module.exports = class InfoCommand extends Commando.Command {
 			aliases: ['delet', 'deletethis', 'dt', 'delete', 'plsno', 'why', 'd'],
 			group: 'commands',
 			memberName: 'delet-this',
-			description: 'Delete the most recent message sent by the bot, in case it was really bad. In future, you might want to use the `filter` command to change the server-wide filter. See `help filter`.',
+			description: 'Delete the most recent message sent by the bot, in case it was really bad.',
+			details: 'Often times, the bot will find images that are grotesque, weird, or downright confusing. This command will delete the most recent image embed sent by the bot (assuming it\'s recent enough for the bot to find).\nIn future, you might want to ask an admin to change the server-wide filter. See `help filter`.'
 		});
 	}
  
