@@ -49,8 +49,8 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 
 	// Only NSFW channels can have explicit content
 	// (Assumes DMs are fine)
-	if (msg.channel.type === 'dm' || msg.channel.type === 'group') {
-		options.filterID = client.config.derpibooru.filters.nsfw;
+	if (msg.channel.type === 'dm') {
+		options.filterID = client.settings.get(`filter.${msg.author.id}`, client.config.derpibooru.filters.nsfw);
 		console.debug(`${requestId} Request is in a DM; NSFW filter enabled.`);
 		nsfw = true;
 	} else if (msg.channel.nsfw) {
@@ -101,21 +101,26 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 	console.debug(`${requestId} Creating embed from result...`);
 	let replyEmbed = await embed.derpibooruResultToEmbed(result);
 
-	if (msg.channel.type === 'text') { // only use guild resolution setting if this is actually in a guild
-		switch (msg.guild.settings.get('embedResolution')) {
-		case 'full':
-			replyEmbed.image.url = result.representations.full;
-			break;
-		case 'high':
-			replyEmbed.image.url = result.representations.large;
-			break;
-		case 'medium':
-			replyEmbed.image.url = result.representations.medium;
-			break;
-		case 'low':
-			replyEmbed.image.url = result.representations.small;
-			break;
-		}
+	let resolution;
+	if (msg.channel.type === 'dm') {
+		resolution = client.settings.get(`embedResolution.${msg.author.id}`, 'medium');
+	} else {
+		resolution = msg.guild.settings.get('embedResolution', 'medium');
+	}
+
+	switch (resolution) {
+	case 'full':
+		replyEmbed.image.url = result.representations.full;
+		break;
+	case 'high':
+		replyEmbed.image.url = result.representations.large;
+		break;
+	case 'medium':
+		replyEmbed.image.url = result.representations.medium;
+		break;
+	case 'low':
+		replyEmbed.image.url = result.representations.small;
+		break;
 	}
 	
 

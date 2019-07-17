@@ -7,7 +7,6 @@ const Commando = require('discord.js-commando');
 module.exports = class FilterCommand extends Commando.Command {
 	constructor(client) {
 		super(client, {
-			guildOnly: true,
 			name: 'resolution',
 			aliases: ['res'],
 			group: 'admin',
@@ -37,7 +36,11 @@ module.exports = class FilterCommand extends Commando.Command {
 
 		if (!['full', 'high', 'medium', 'low'].includes(res)) return msg.reply(`Invalid resolution: ${res}. See \`help res\`.`);
 
-		await msg.guild.settings.set(`embedResolution`, res);
+		if (msg.channel.type === 'dm') {
+			await this.client.settings.set(`embedResolution.${msg.author.id}`, res);
+		} else {
+			await msg.guild.settings.set('embedResolution', res);
+		}
 		return msg.reply(`Embedded image resolution set to \`${res}\`.`);
 	}
 };

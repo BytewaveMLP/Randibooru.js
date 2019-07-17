@@ -7,18 +7,17 @@ const Commando = require('discord.js-commando');
 module.exports = class FilterCommand extends Commando.Command {
 	constructor(client) {
 		super(client, {
-			guildOnly: true,
 			name: 'filter',
 			aliases: ['filt', 'fid'],
 			group: 'admin',
 			memberName: 'filter',
 			description: 'Set Randibooru\'s Derpibooru filters.',
-			details: 'If you aren\'t sure how to retrieve this, it can be found by right-clicking the "Use this filter" button for the filter you want on <https://derpibooru.org/filters> and using Inspect Element. The ID is the number after `/filters/current?id=` on the line above.\nSpecify NSFW or SFW after the filter ID to choose which filter to set.',
+			details: 'If you aren\'t sure how to retrieve this, it can be found by right-clicking the "Use this filter" button for the filter you want on <https://derpibooru.org/filters> and using Inspect Element. The ID is the number after `/filters/current?id=` on the line above.\nSpecify NSFW or SFW after the filter ID to choose which filter to set; this does not matter for DMs, however, as DMs always use the NSFW filter.',
 			examples: ['filter YOUR_FILTER_ID', 'filter NONE', 'filter YOUR_FILTER_ID SFW'],
 			args: [
 				{
-					key: 'key',
-					label: 'key',
+					key: 'filter',
+					label: 'filter',
 					prompt: 'Which Derpibooru filter should I use?\nSpecify NONE to unset this option.\nIf you aren\'t sure what to put, see `help filter`.',
 					type: 'string'
 				},
@@ -38,17 +37,28 @@ module.exports = class FilterCommand extends Commando.Command {
 
 	async run(msg, args) {
 		const type = args.type.toLowerCase();
+		const filter = args.filter.toLowerCase();
 
 		if (type !== 'nsfw' && type != 'sfw') {
 			return msg.reply('`type` must be one of `sfw`/`nsfw`.');
 		}
 
-		if (args.key.toLowerCase() === 'none') {
-			await msg.guild.settings.remove(`filter.${type}`);
-			return msg.reply(`${type.toUpperCase()} filter ID unset.`);
+		if (msg.channel.type === 'dm') {
+			if (filter === 'none') {
+				await this.client.settings.remove(`filter.${msg.author.id}`, filter);
+			} else {
+				await this.client.settings.set(`filter.${msg.author.id}`, filter);
+			}
+		} else {
+			if (filter === 'none') {
+				await msg.guild.settings.remove(`filter.${type}`);
+			} else {
+				await msg.guild.settings.set(`filter.${type}`, filter);
+			}
 		}
 
-		await msg.guild.settings.set(`filter.${type}`, args.key);
-		return msg.reply(`${type.toUpperCase()} filter ID set successfully!`);
+		// DM:    Filter ID...
+		// Guild: [TYPE] filter ID...
+		return msg.reply(`${msg.channel.type === 'dm' ? 'F' : `${type.toUpperCase()} f`}ilter ID ${filter === 'none' ? 'unset' : `set to ${filter}`}.`);
 	}
 };
