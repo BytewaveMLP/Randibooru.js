@@ -30,7 +30,7 @@ I'm currently serving **${guilds.toLocaleString()}** servers, and hope to grow s
 
 If you need help getting me to work, try using the \`${msg.guild ? (msg.guild.commandPrefix || this.client.commandPrefix || this.client.options.commandPrefix) : ''}help\` command. From there, you can see a list of all the commands I have available.
 
-**GitHub repository**
+**GitHub repository** (licensed under the MPL v2.0)
 https://github.com/BytewaveMLP/Randibooru.js
 
 **Support server** (send feature requests and bug reports here!)

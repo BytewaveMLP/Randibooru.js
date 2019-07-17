@@ -77,15 +77,15 @@ client
 			}).array();
 
 			console.log('Posting join message in highest channel with SEND_MESSAGES permission...');
-			channels[0].send(`**Hey there!** I'm **Randibooru.js**, the next generation of Randibooru! I fetch random images from Derpibooru, the MLP image booru, for your enjoyment.
+			channels[0].send(`**Hey there**, I'm Randibooru! I fetch random images from Derpibooru (<https://derpibooru.org>), the MLP image booru, for your enjoyment.
 
-If you'd like to know what I can do, take a look at the \`${guild.commandPrefix || client.commandPrefix || client.options.commandPrefix}help\` command!
+If you need help getting me to work, try using the \`${guild.commandPrefix || client.commandPrefix || client.options.commandPrefix}help\` command. From there, you can see a list of all the commands I have available.
 
-**Want to see my source code?** Here ya go!
+**GitHub repository** (licensed under the MPL v2.0)
 https://github.com/BytewaveMLP/Randibooru.js
 
-**Join my Discord server!**
-${config.bot.invite}`).catch(console.error);
+**Support server** (send feature requests and bug reports here!)
+${this.client.config.bot.invite}`).catch(console.error);
 		}
 	})
 	.on('guildDelete', (guild) => {
