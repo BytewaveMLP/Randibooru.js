@@ -21,7 +21,7 @@ module.exports = class FilterCommand extends Commando.Command {
 					prompt: '',
 					default: 'medium',
 					type: 'string',
-				}
+				},
 			],
 			userPermissions: [
 				'MANAGE_CHANNELS',

@@ -19,7 +19,7 @@ module.exports = class FilterCommand extends Commando.Command {
 					key: 'filter',
 					label: 'filter',
 					prompt: 'Which Derpibooru filter should I use?\nSpecify NONE to unset this option.\nIf you aren\'t sure what to put, see `help filter`.',
-					type: 'string'
+					type: 'string',
 				},
 				{
 					key: 'type',
@@ -27,7 +27,7 @@ module.exports = class FilterCommand extends Commando.Command {
 					prompt: '',
 					default: 'nsfw',
 					type: 'string',
-				}
+				},
 			],
 			userPermissions: [
 				'MANAGE_CHANNELS',
@@ -38,6 +38,10 @@ module.exports = class FilterCommand extends Commando.Command {
 	async run(msg, args) {
 		const type = args.type.toLowerCase();
 		const filter = args.filter.toLowerCase();
+
+		if (filter !== 'none' && isNaN(filter)) {
+			return msg.reply('`filter` must be a number or `none`.');
+		}
 
 		if (type !== 'nsfw' && type != 'sfw') {
 			return msg.reply('`type` must be one of `sfw`/`nsfw`.');
