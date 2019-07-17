@@ -85,7 +85,7 @@ If you need help getting me to work, try using the \`${guild.commandPrefix || cl
 https://github.com/BytewaveMLP/Randibooru.js
 
 **Support server** (send feature requests and bug reports here!)
-${this.client.config.bot.invite}`).catch(console.error);
+${client.config.bot.invite}`).catch(console.error);
 		}
 	})
 	.on('guildDelete', (guild) => {
