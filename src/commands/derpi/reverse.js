@@ -6,6 +6,7 @@ const Commando = require('discord.js-commando');
 const Derpibooru = require('node-derpi');
 const Embed = require('../../util/embed');
 
+// TODO: try to not repeat a lot of code from util/derpi-cimmand.js
 module.exports = class ReverseCommand extends Commando.Command {
 	constructor(client) {
 		super(client, {
@@ -38,13 +39,29 @@ module.exports = class ReverseCommand extends Commando.Command {
 			requestId += `${msg.channel.guild.name} #${msg.channel.name}`;
 		}
 	
-		if (args.query) {
-			requestId += ` with query ${args.query}`;
-		}
-	
 		requestId += ']';
 
 		console.log(`${requestId} Received reverse image search request.`);
+
+		let nsfw = false;
+		let filterID = this.client.config.derpibooru.filters.sfw;
+
+		// Only NSFW channels can have explicit content
+		// (Assumes DMs are fine)
+		if (msg.channel.type === 'dm') {
+			filterID = this.client.settings.get(`filter.${msg.author.id}`, this.client.config.derpibooru.filters.nsfw);
+			console.debug(`${requestId} Request is in a DM; NSFW filter enabled.`);
+			nsfw = true;
+		} else if (msg.channel.nsfw) {
+			filterID = msg.guild.settings.get('filter.nsfw', this.client.config.derpibooru.filters.nsfw);
+			console.debug(`${requestId} Request was sent in a channel marked NSFW; NSFW filter enabled.`);
+			nsfw = true;
+		} else {
+			filterID = msg.guild.settings.get('filter.sfw', this.client.config.derpibooru.filters.sfw);
+			console.debug(`${requestId} Request was not sent in an NSFW channel; using SFW filter.`);
+		}
+	
+		console.debug(`${requestId} Using filter ID ${filterID}`);
 
 		if (msg.channel.type === 'text' && msg.guild.settings.get(`blockedUsers.${msg.author.id}`)) {
 			console.info(`${requestId} Blocked by adminstrator.`);
@@ -73,6 +90,15 @@ module.exports = class ReverseCommand extends Commando.Command {
 		if (results.images.length < 1) return msg.reply(`query: \`${searchUrl}\`: No results found`);
 
 		let result = results.images[0];
+
+		if (result === undefined) {
+			console.info(`${requestId} No results found.`);
+			return msg.reply(`No ${!nsfw ? 'safe-for-work ' : ''}images found`);
+		} else if (this.lient.config.derpibooru.blockedTags && result.tagNames.some(tag => this.client.config.derpibooru.blockedTags.includes(tag))) {
+			console.log(`${requestId} Result https://derpibooru.org/${result.id} violates blocked tag rules`);
+			return msg.reply(`A result was found, but was blocked by the bot's host, likely due to ToS enforcement. See https://discordapp.com/guidelines.`);
+		}
+
 		console.info(`${requestId} Result found - https://derpibooru.org/${result.id}; sending embed...`);
 
 		console.debug(`${requestId} Creating embed from result...`);
@@ -80,7 +106,8 @@ module.exports = class ReverseCommand extends Commando.Command {
 
 		await msg.channel.stopTyping();
 		return msg.reply(`query: \`${searchUrl}\``, {
-			embed: replyEmbed
+			embed: replyEmbed,
+			filterID
 		});
 	}
 };
