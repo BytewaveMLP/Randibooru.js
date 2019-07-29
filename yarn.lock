@@ -676,9 +676,9 @@ needle@^2.2.1:
     sax "^1.2.4"
 
 node-derpi@^0.3.0:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/node-derpi/-/node-derpi-0.3.3.tgz#ff522eda7bf713cc545aec7af8df7489795f6d6b"
-  integrity sha512-PmGiczRGQHdu+8uRpKF9zB/E9ZqwYajXpnKuWmgWpSomOwHEj99I+oa6Zo0jX2nSdo2qmqSlmUPVpy1pm4HF4w==
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/node-derpi/-/node-derpi-0.3.5.tgz#930ec0d265d75dfcd01096485f331ed22e5b823f"
+  integrity sha512-t5w+aUPRCtkkjM+GNZCkrnKKluYSKPDi7tgUgKybnnZLnvXyMFNUph7Y/wEf8qLTWuKrMgS+s6zDOooyf9Ecow==
   dependencies:
     json2typescript "^1.0.5"
     request "^2.85.0"
