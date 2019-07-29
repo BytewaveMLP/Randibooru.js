@@ -71,6 +71,7 @@ module.exports = class ReverseCommand extends Commando.Command {
 			});
 		} catch (e) {
 			console.log(`${requestId} ${e}`);
+			await msg.channel.stopTyping();
 			return msg.reply(`Derpibooru couldn't access the image you provided: ${e.message}`);
 		}
 
