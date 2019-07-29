@@ -63,9 +63,16 @@ module.exports = class ReverseCommand extends Commando.Command {
 
 		console.log(`${requestId} Search URL: ${searchUrl}`);
 
-		const results = await Derpibooru.Fetch.reverseImageSearch({
-			url: searchUrl
-		});
+		let results;
+
+		try {
+			results = await Derpibooru.Fetch.reverseImageSearch({
+				url: searchUrl
+			});
+		} catch (e) {
+			console.log(`${requestId} ${e}`);
+			return msg.reply(`Derpibooru couldn't access the image you provided: ${e.message}`);
+		}
 
 		if (results.images.length < 1) return msg.reply(`query: \`${searchUrl}\`: No results found.`);
 
