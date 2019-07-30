@@ -69,15 +69,11 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 	try {
 		searchResults = await Derpibooru.Fetch.search(options);
 	} catch (err) {
-		console.debug(`${requestId} Stopping typing notification...`);
-		await msg.channel.stopTyping();
 		console.error(`${requestId} ERROR: ${err.message}`);
 		return msg.reply(`An error occurred: ${err.message}`);
+	} finally {
+		await msg.channel.stopTyping();
 	}
-
-	// Sometimes, the typing indicator gets stuck, so let's reset it here
-	console.debug(`${requestId} Stopping typing notification...`);
-	await msg.channel.stopTyping();
 
 	let messagePrefix = args.query !== '' ? `query: \`${args.query.substr(0, 200) + (args.query.length > 200 ? '...' : '')}\`: ` : '';
 	
@@ -123,7 +119,6 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 		replyEmbed.image.url = result.representations.small;
 		break;
 	}
-	
 
 	return msg.reply(messagePrefix, {
 		embed: replyEmbed

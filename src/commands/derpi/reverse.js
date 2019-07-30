@@ -91,6 +91,29 @@ module.exports = class ReverseCommand extends Commando.Command {
 
 		console.debug(`${requestId} Creating embed from result...`);
 		let replyEmbed = await Embed.derpibooruResultToEmbed(result);
+
+		let resolution;
+		if (msg.channel.type === 'dm') {
+			resolution = this.client.settings.get(`embedResolution.${msg.author.id}`, 'medium');
+		} else {
+			resolution = msg.guild.settings.get('embedResolution', 'medium');
+		}
+	
+		switch (resolution) {
+		case 'full':
+			replyEmbed.image.url = result.representations.full;
+			break;
+		case 'high':
+			replyEmbed.image.url = result.representations.large;
+			break;
+		case 'medium':
+			replyEmbed.image.url = result.representations.medium;
+			break;
+		case 'low':
+			replyEmbed.image.url = result.representations.small;
+			break;
+		}
+
 		return msg.reply(`query: \`${searchUrl}\``, {
 			embed: replyEmbed
 		});
