@@ -71,8 +71,9 @@ module.exports = class ReverseCommand extends Commando.Command {
 			});
 		} catch (e) {
 			console.log(`${requestId} ${e}`);
-			await msg.channel.stopTyping();
 			return msg.reply(`Derpibooru couldn't access the image you provided: ${e.message}`);
+		} finally {
+			await msg.channel.stopTyping();
 		}
 
 		if (results.images.length < 1) return msg.reply(`query: \`${searchUrl}\`: No results found.`);
@@ -90,8 +91,6 @@ module.exports = class ReverseCommand extends Commando.Command {
 
 		console.debug(`${requestId} Creating embed from result...`);
 		let replyEmbed = await Embed.derpibooruResultToEmbed(result);
-
-		await msg.channel.stopTyping();
 		return msg.reply(`query: \`${searchUrl}\``, {
 			embed: replyEmbed
 		});
