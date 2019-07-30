@@ -80,8 +80,10 @@ module.exports = class ReverseCommand extends Commando.Command {
 		let result = results.images[0];
 
 		if (this.client.config.derpibooru.blockedTags && result.tagNames.some(tag => this.client.config.derpibooru.blockedTags.includes(tag))) {
-			console.log(`${requestId} Result https://derpibooru.org/${result.id} violates blocked tag rules`);
-			return msg.reply(`A result was found, but was blocked by the bot's host, likely due to ToS enforcement. See https://discordapp.com/guidelines.`);
+			const blockedTags = result.tagNames.filter(tag => this.client.config.derpibooru.blockedTags.includes(tag)).join(', ');
+
+			console.log(`${requestId} Result https://derpibooru.org/${result.id} violates blocked tag rules: ${blockedTags}`);
+			return msg.reply(`*A result was found, but was blocked by the bot's host for containing the following tags: \`${blockedTags}\`, likely in compliance with Discord's ToS. See <https://discordapp.com/guidelines>.*`);
 		}
 
 		console.info(`${requestId} Result found - https://derpibooru.org/${result.id}; sending embed...`);
