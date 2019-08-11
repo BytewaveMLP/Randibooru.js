@@ -67,7 +67,7 @@ exports.derpibooruResultToEmbed = async (result) => {
 			},
 			footer: {
 				icon_url: 'https://i.imgur.com/qidEKrL.png',
-				text: 'Randibooru.js - Made with <3 by Bytewave'
+				text: 'Randibooru.js - Made with 💚 by Bytewave'
 			}
 		};
 
