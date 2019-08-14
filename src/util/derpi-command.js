@@ -120,7 +120,14 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 		break;
 	}
 
-	return msg.reply(messagePrefix, {
+	await msg.reply(messagePrefix, {
 		embed: replyEmbed
 	});
+
+	// Discord doesn't let us use the video property on rich embeds. So instead, I have to send a second message with the video URL to get an in-client video.
+	// Thanks, Discord. Very cool.
+	if (result.representations.mimeType === 'video/webm') {
+		console.log(`${requestId} Result is a webm. Sending second message with video link...`);
+		return msg.channel.send(result.representations.webm);
+	}
 };
