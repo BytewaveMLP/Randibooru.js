@@ -19,7 +19,7 @@ Randibooru.js is my first experiment in Node.js. My goal is to attempt to port R
 	- [Moderators/Server Owners](#moderatorsserver-owners)
 		- [Filters](#filters)
 		- [Blocking](#blocking)
-		- [Embed resolution][#embed-resolution]
+		- [Embed resolution](#embed-resolution)
 - [Maintainers](#maintainers)
 - [Contribute](#contribute)
 - [License](#license)
