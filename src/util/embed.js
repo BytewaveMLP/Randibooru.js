@@ -71,9 +71,11 @@ exports.derpibooruResultToEmbed = async (result) => {
 			}
 		};
 
-		if (result.artistName) {
-			data.author.name = result.artistName;
-			data.author.url  = `https://derpibooru.org/tags/${encodeURIComponent(slugify(`artist:${result.artistName}`))}`;
+		if (result.artistNames.length > 0) {
+			const artistNames = result.artistNames;
+			data.author.name = artistNames.slice(0, 3).join(', ') + (artistNames.length > 3 ? '...' : '');
+			if (artistNames.length === 1)
+				data.author.url = `https://derpibooru.org/tags/${encodeURIComponent(slugify(`artist:${artistNames[0]}`))}`;
 		}
 
 		// Can't process webms
