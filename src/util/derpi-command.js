@@ -16,21 +16,7 @@ const Derpibooru = require('node-derpi');
  * @param {object} args - The arguments to the command (second param in async run)
  */
 exports.handleDerpiCommand = async (options, client, msg, args) => {
-	let requestId = `[${new Date().toISOString()}] [@${msg.author.username}#${msg.author.discriminator} in `;
-
-	if (msg.channel.type === 'dm') {
-		requestId += 'a DM';
-	} else if (msg.channel === 'group') {
-		requestId += `a group DM (${msg.channel.name}`;
-	} else {
-		requestId += `${msg.channel.guild.name} #${msg.channel.name}`;
-	}
-
-	if (args.query) {
-		requestId += ` with query ${args.query}`;
-	}
-
-	requestId += ']';
+	const requestId = `${msg.id} -`;
 
 	console.info(`${requestId} Received.`);
 	console.debug(`${requestId} Options: ${JSON.stringify(options)}`);
