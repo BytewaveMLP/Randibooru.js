@@ -11,7 +11,7 @@ const request = require('request');
  * @returns {object} - An object containing two properties, guilds and members, each representing the associated counts.
  */
 exports.getGuilds = async (client) => {
-	return new Promise((resolve, reject) => {
+	return new Promise(resolve => {
 		let guilds = client.guilds.array().length;
 
 		resolve(guilds);
