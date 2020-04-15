@@ -10,7 +10,7 @@
 	"derpibooru": {
 		"filters": {
 			"sfw": 100073,
-			"nsfw": 56027
+			"nsfw": 37432
 		},
 		"blockedTags": ["foalcon", "gore", "necrophilia", "self harm", "rape", "death", "suicide"]
 	}
