@@ -54,7 +54,8 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 
 	console.debug(`${requestId} Options: ${JSON.stringify(options)}`);
 
-	let messagePrefix = args.query !== '' ? `query: \`${args.query.substr(0, 200) + (args.query.length > 200 ? '...' : '')}\`: ` : '';
+	const maxQueryPreviewLength = 100;
+	let messagePrefix = args.query !== '' ? `query: \`${args.query.substr(0, maxQueryPreviewLength) + (args.query.length > maxQueryPreviewLength ? '...' : '')}\`: ` : '';
 
 	let searchResults;
 
@@ -80,7 +81,7 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 
 	if (result === undefined) {
 		console.info(`${requestId} No results found.`);
-		return msg.reply(`${messagePrefix}No ${!nsfw ? 'safe-for-work ' : ''}images found`);
+		return msg.reply(`${messagePrefix}No ${!nsfw ? 'safe-for-work ' : ''}images found with the current filter.`);
 	}
 
 	console.info(`${requestId} Result found - https://derpibooru.org/${result.id}`);
