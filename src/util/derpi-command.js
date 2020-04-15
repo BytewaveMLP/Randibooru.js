@@ -16,10 +16,9 @@ const Derpibooru = require('node-derpi');
  * @param {object} args - The arguments to the command (second param in async run)
  */
 exports.handleDerpiCommand = async (options, client, msg, args) => {
-	const requestId = `${msg.id} -`;
+	const requestId = `${msg.channel.id}:${msg.id} -`;
 
 	console.info(`${requestId} Received.`);
-	console.debug(`${requestId} Options: ${JSON.stringify(options)}`);
 
 	if (msg.channel.type === 'text' && msg.guild.settings.get(`blockedUsers.${msg.author.id}`)) {
 		console.info(`${requestId} Blocked by adminstrator.`);
@@ -29,7 +28,12 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 	console.debug(`${requestId} Sending typing notification...`);
 	await msg.channel.startTyping();
 
-	options.query = args.query;
+	options.query = `${args.query}`;
+
+	if (client.config.derpibooru.blockedTags) {
+		if (options.query) options.query += ', ';
+		options.query += `-(${client.config.derpibooru.blockedTags.join(' || ')})`;
+	}
 
 	let nsfw = false;
 
@@ -48,7 +52,9 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 		console.debug(`${requestId} Request was not sent in an NSFW channel; using SFW filter.`);
 	}
 
-	console.debug(`${requestId} Using filter ID ${options.filterID}`);
+	console.debug(`${requestId} Options: ${JSON.stringify(options)}`);
+
+	let messagePrefix = args.query !== '' ? `query: \`${args.query.substr(0, 200) + (args.query.length > 200 ? '...' : '')}\`: ` : '';
 
 	let searchResults;
 
@@ -56,12 +62,14 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 		searchResults = await Derpibooru.Fetch.search(options);
 	} catch (err) {
 		console.error(`${requestId} ERROR: ${err.message}`);
-		return msg.reply(`An error occurred: ${err.message}`);
+		if (err.message === 'Received status code 400') {
+			return msg.reply(`${messagePrefix}Your query syntax is invalid. Please check your syntax and try again.`);
+		}
+		return msg.reply(`${messagePrefix}An error occurred: ${err.message}`);
 	} finally {
 		await msg.channel.stopTyping();
 	}
 
-	let messagePrefix = args.query !== '' ? `query: \`${args.query.substr(0, 200) + (args.query.length > 200 ? '...' : '')}\`: ` : '';
 	
 	let results = searchResults.images;
 	let result;
@@ -73,10 +81,6 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 	if (result === undefined) {
 		console.info(`${requestId} No results found.`);
 		return msg.reply(`${messagePrefix}No ${!nsfw ? 'safe-for-work ' : ''}images found`);
-	} else if (client.config.derpibooru.blockedTags && result.tagNames.some(tag => client.config.derpibooru.blockedTags.includes(tag))) {
-		const blockedTags = result.tagNames.filter(tag => client.config.derpibooru.blockedTags.includes(tag)).join(', ');
-		console.log(`${requestId} Result https://derpibooru.org/${result.id} violates blocked tag rules: ${blockedTags}`);
-		return msg.reply(`*A result was found, but was blocked by the bot's host for containing the following tags: \`${blockedTags}\`, likely in compliance with Discord's ToS. See <https://discordapp.com/guidelines>.*`);
 	}
 
 	console.info(`${requestId} Result found - https://derpibooru.org/${result.id}`);
