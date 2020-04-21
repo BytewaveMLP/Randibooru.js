@@ -11,8 +11,8 @@ const request = require('request');
  * @returns {object} - An object containing two properties, guilds and members, each representing the associated counts.
  */
 exports.getGuilds = async (client) => {
-	return new Promise((resolve, reject) => {
-		let guilds = client.guilds.array().length;
+	return new Promise(resolve => {
+		let guilds = client.guilds.cache.size;
 
 		resolve(guilds);
 	});
@@ -45,7 +45,7 @@ exports.setGame = async (client) => {
 				// I don't use this (yet), but it's good in case this bot gets big enough for it to matter
 				// (or for people who want this code for themselves)
 				if (client.shard) {
-					requestData.shard_id = client.shard.id;
+					requestData.shard_id = client.shard.ids[0];
 					requestData.shard_count = client.shard.count;
 				}
 
@@ -71,9 +71,13 @@ exports.setGame = async (client) => {
 	}
 
 	return client.user.setPresence({
-		game: {
-			name:`for ${client.commandPrefix || client.options.commandPrefix}help in ${guilds.toLocaleString()} servers`,
+		activity: {
+			name:`for ${client.commandPrefix || client.options.commandPrefix}help`,
 			type: 'WATCHING'
 		}
 	});
+};
+
+exports.generateInvite = async (client) => {
+	return client.generateInvite(['SEND_MESSAGES', 'EMBED_LINKS', 'VIEW_CHANNEL']);
 };

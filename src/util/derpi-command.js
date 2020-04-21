@@ -26,7 +26,7 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 	}
 
 	console.debug(`${requestId} Sending typing notification...`);
-	await msg.channel.startTyping();
+	msg.channel.startTyping();
 
 	options.query = `${args.query}`;
 
@@ -52,7 +52,7 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 		console.debug(`${requestId} Request was not sent in an NSFW channel; using SFW filter.`);
 	}
 
-	console.debug(`${requestId} Options: ${JSON.stringify(options)}`);
+	// console.debug(`${requestId} Options: ${JSON.stringify(options)}`);
 
 	const maxQueryPreviewLength = 100;
 	let messagePrefix = args.query !== '' ? `query: \`${args.query.substr(0, maxQueryPreviewLength) + (args.query.length > maxQueryPreviewLength ? '...' : '')}\`: ` : '';

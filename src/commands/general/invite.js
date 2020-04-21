@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const Commando = require('discord.js-commando');
+const Helpers = require('../../util/helpers.js');
 
 module.exports = class InviteCommand extends Commando.Command {
 	constructor(client) {
@@ -17,8 +18,7 @@ module.exports = class InviteCommand extends Commando.Command {
 	}
 
 	async run(msg) {
-		let link = await this.client.generateInvite(['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGES']);
-
+		let link = await Helpers.generateInvite(this.client);
 		msg.reply(`<${link}>`);
 	}
 };

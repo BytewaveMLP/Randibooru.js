@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const Commando = require('discord.js-commando');
-const Helpers = require('../../util/helpers.js');
  
 module.exports = class InfoCommand extends Commando.Command {
 	constructor(client) {
@@ -18,7 +17,7 @@ module.exports = class InfoCommand extends Commando.Command {
 	}
  
 	async run(msg) {
-		const messages = msg.channel.messages.size > 20 ? msg.channel.messages : await msg.channel.fetchMessages();
+		const messages = await msg.channel.messages.fetch();
 		const myRecentMessages = messages.filter(message => message.author.id === this.client.user.id && message.embeds.length > 0);
 		const latestMessage = myRecentMessages.reduce((previous, message) => message.createdAt > previous.createdAt ? message : previous);
 

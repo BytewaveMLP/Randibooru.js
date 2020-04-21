@@ -47,7 +47,7 @@ module.exports = class AnnounceCommand extends Commando.Command {
 		} else {
 			type = args.type.toUpperCase();
 			await this.client.user.setPresence({
-				game: {
+				activity: {
 					name: args.game,
 					type: type
 				}
