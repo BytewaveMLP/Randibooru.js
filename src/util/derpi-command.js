@@ -26,7 +26,7 @@ exports.handleDerpiCommand = async (options, client, msg, args) => {
 	}
 
 	console.debug(`${requestId} Sending typing notification...`);
-	await msg.channel.startTyping();
+	msg.channel.startTyping();
 
 	options.query = `${args.query}`;
 

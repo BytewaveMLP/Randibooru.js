@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 const Commando = require('discord.js-commando');
+const Discord = require('discord.js');
 const Helpers = require('./util/helpers.js');
 const path = require('path');
 const sqlite = require('sqlite');
@@ -48,36 +49,30 @@ client
 		}
 	})
 	.on('ready', () => {
-		console.log(`Initialized - logged in as ${client.user.username}#${client.user.discriminator} (${client.user.id})`);
-		client.generateInvite(['SEND_MESSAGES', 'EMBED_LINKS', 'READ_MESSAGES'])
+		console.log(`Initialized - logged in as ${client.user.tag} (${client.user.id})`);
+		Helpers.generateInvite(client)
 			.then(link => {
 				console.log(`Use this link to invite me to your server: ${link}`);
 			});
 		Helpers.setGame(client);
 	})
-	.on('disconnect', () => { console.warn('Disconnected!'); })
-	// .on('reconnecting', () => { console.warn('Reconnecting...'); })
 	.on('guildCreate', (guild) => {
 		// Handles case in which guildCreate events could be sent randomly, causing the welcome message to be sent
 		// to servers the bot has already joined.
 		// This doesn't happen often, but once is once too many.
-		if (Date.now() - guild.joinedTimestamp > 120) return;
-
-		Helpers.setGame(client);
+		if ((Date.now() / 1000) - (guild.joinedTimestamp / 1000) > 120) return;
 
 		console.log(`Joined server ${guild.name} (${guild.id})`);
 
-		let channels = guild.channels.filter((channel) => {
+		let channels = guild.channels.cache.filter((channel) => {
 			return channel.type === 'text' && channel.permissionsFor(guild.me).has('SEND_MESSAGES');
 		});
 
 		if (channels.array().length > 0) {
-			channels = channels.sort((a, b) => {
-				return a.calculatedPosition - b.calculatedPosition;
-			}).array();
+			const sortedChannels = Discord.Util.discordSort(channels);
 
 			console.log('Posting join message in highest channel with SEND_MESSAGES permission...');
-			channels[0].send(`**Hey there**, I'm Randibooru! I fetch random images from Derpibooru (<https://derpibooru.org>), the MLP image booru, for your enjoyment.
+			sortedChannels.first().send(`**Hey there**, I'm Randibooru! I fetch random images from Derpibooru (<https://derpibooru.org>), the MLP image booru, for your enjoyment.
 
 If you need help getting me to work, try using the \`${guild.commandPrefix || client.commandPrefix || client.options.commandPrefix}help\` command. From there, you can see a list of all the commands I have available.
 

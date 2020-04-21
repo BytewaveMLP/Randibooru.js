@@ -17,7 +17,7 @@ module.exports = class InfoCommand extends Commando.Command {
 	}
  
 	async run(msg) {
-		const messages = msg.channel.messages.size > 20 ? msg.channel.messages : await msg.channel.fetchMessages();
+		const messages = await msg.channel.messages.fetch();
 		const myRecentMessages = messages.filter(message => message.author.id === this.client.user.id && message.embeds.length > 0);
 		const latestMessage = myRecentMessages.reduce((previous, message) => message.createdAt > previous.createdAt ? message : previous);
 
