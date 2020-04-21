@@ -56,7 +56,7 @@ client
 		Helpers.setGame(client);
 	})
 	.on('disconnect', () => { console.warn('Disconnected!'); })
-	.on('reconnecting', () => { console.warn('Reconnecting...'); })
+	// .on('reconnecting', () => { console.warn('Reconnecting...'); })
 	.on('guildCreate', (guild) => {
 		// Handles case in which guildCreate events could be sent randomly, causing the welcome message to be sent
 		// to servers the bot has already joined.
