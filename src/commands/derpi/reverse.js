@@ -29,17 +29,7 @@ module.exports = class ReverseCommand extends Commando.Command {
 	}
 
 	async run(msg, args) {
-		let requestId = `[${new Date().toISOString()}] [@${msg.author.username}#${msg.author.discriminator} in `;
-
-		if (msg.channel.type === 'dm') {
-			requestId += 'a DM';
-		} else if (msg.channel === 'group') {
-			requestId += `a group DM (${msg.channel.name}`;
-		} else {
-			requestId += `${msg.channel.guild.name} #${msg.channel.name}`;
-		}
-	
-		requestId += ']';
+		const requestId = `${msg.channel.id}:${msg.id} -`;
 
 		console.log(`${requestId} Received reverse image search request.`);
 
@@ -59,7 +49,7 @@ module.exports = class ReverseCommand extends Commando.Command {
 		}
 
 		console.debug(`${requestId} Sending typing notification...`);
-		await msg.channel.startTyping();
+		msg.channel.startTyping();
 
 		console.log(`${requestId} Search URL: ${searchUrl}`);
 
