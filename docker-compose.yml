@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  randibooru:
+    build: .
+    volumes:
+      - ./config.json:/app/config.json:ro
+      - randibooru:/app/settings.sqlite3
+
+volumes:
+  randibooru:
