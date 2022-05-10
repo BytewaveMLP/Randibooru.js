@@ -3,6 +3,7 @@ version: '3'
 services:
   randibooru:
     build: .
+    restart: unless-stopped
     volumes:
       - ./config.json:/app/config.json:ro
       - randibooru:/app/settings.sqlite3
